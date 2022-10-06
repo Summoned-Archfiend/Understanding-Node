@@ -77,4 +77,20 @@ So what does the `V8 Engine` do? it is a program, yes, the `V8 Engine` is a prog
 
 <br />
 
-In every walk of life, whether your a physicist, engineer, or anything else, `causality` is always at play, our actions have consequences, in the real world and the digital realm alike. We need to be able to understand and trace these consequences in order to determine how our actions will perform. With the `V8` engine, we are in luck. We don't need any high powered lasers like those used to measure particles, or a geiger counter, like those used for measuring radiation given off by expiring half lives. No, in our industry we are very lucky, especially with `V8` as google provides it as open-source, this means it is free to use, access, and transform as we so need. We can access the `V8 Engine` source code [here](https://github.com/v8/v8) or via `git clone https://github.com/v8/v8.git`, from this point you can simply open your text editor of choice and view the files like any other project.
+In every walk of life, whether your a physicist, engineer, or anything else, `causality` is always at play, our actions have consequences, in the real world and the digital realm alike. We need to be able to understand and trace these consequences in order to determine how our actions will perform. With the `V8` engine, we are in luck. We don't need any high powered lasers like those used to measure particles, or a geiger counter, like those used for measuring radiation given off by expiring half lives. No, in our industry we are very lucky, especially with `V8` as google provides it as open-source, this means it is free to use, access, and transform as we so need. We can access the `V8 Engine` source code [here](https://github.com/v8/v8) or via `git clone https://github.com/v8/v8.git`, from this point you can simply open your text editor of choice and view the files like any other project. Take a look at some of the files, demystify the blackbox, understand that this is just `code` like any other program, we can learn to understand it, though there is a lot.
+
+A key feature of `V8` involved adding additional features to `JavaScript`. `V8` can run standalone, or embedded into any `C++` application. This means, if you are writing a `C++` program, you can embed `V8` inside of your program and use it. It also means if you are writing a `C++` program, you could even use it to translate others `JavaScript` code. Further, much like `React` `V8` has hooks we can use in our `JavaScript` code. When we write `JavaScript` code in `Node` it is passed to the `V8` engine (`C++`), this is compiled to `Machine Code`, we can also embed `V8` into our own `C++` program so that `JavaScript` code still gets run through `V8` to generate the `Machine Code` but because we are writing in `C++` we can use hooks to add features to `JavaScript`. `V8` is fundamentally `C++`, it is taking `JavaScript` and compiling it. As such, `V8` allows us to write our own `C++` code which we can make available to `JavaScript`, we can make it so that if someone writes a particular things in `JavaScript`, our `C++` code will be run, this means we can extend `JavaScript`s features adding our own features to the language as needed. This is incredibly powerful, `JavaScript` was not designed for low-level operations, it is therefore limited, it was designed to be run in a browser, `C++` however, is a lower-level language, it has many more features, and we can do a lot with it including interacting with our hardware and OS.
+
+<br />
+
+<div align="center">
+
+V8 Compile             |  V8 Embedded
+:-------------------------:|:-------------------------:
+<img src="../images/v8Compile.png" width="230px">  |  <img src="../images/v8embedded.png" width="250px">
+
+</div>
+
+</div>
+
+<br />
