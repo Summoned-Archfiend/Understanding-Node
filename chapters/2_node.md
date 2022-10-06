@@ -63,4 +63,18 @@ This section is a little long, a little complex, but it will be worthwhile under
 
 You will notice that the specification describes all the things `JavaScript` is supposed to <em>have</em>, and those which it is supposed to <em>do</em>. It describes, `JavaScripts` behaviour, and the expectations when certain things are done in the language. `V8` adheres to this specification.
 
-So what does the `V8 Engine` do? it is a program, yes, the `V8 Engine` is a program, just like the ones we write. It converts `JavaScript` into something which a `processor` can understand.
+So what does the `V8 Engine` do? it is a program, yes, the `V8 Engine` is a program, just like the ones we write. It converts `JavaScript` into something which a `processor` can understand. When you think about `V8` what do you see? what do you "think" the `V8` engine is, what does it look like? how does it do what it does? these questions are likely to still elude you at this point, you probably see the `V8` engine as a blackbox, one which, we feed something into and it does some "magic" (processing) and spits out some machine code which allows the processor to conduct our tasks. This is a fine beginning, but, we want to understand the whole process, if we are interacting with our processor, we need to know exactly how what we are doing affects our system, we need to understand `causality`.
+
+<br />
+
+<div align="center" >
+<BlockQuote style="margin: auto; width: 500px;">
+<em>
+“with every action theres an equal opposite reaction. With every problem, there’s a solution: just a matter of taking action.”
+</em> - Albert Einstein
+</BlockQuote>
+</div>
+
+<br />
+
+In every walk of life, whether your a physicist, engineer, or anything else, `causality` is always at play, our actions have consequences, in the real world and the digital realm alike. We need to be able to understand and trace these consequences in order to determine how our actions will perform. With the `V8` engine, we are in luck. We don't need any high powered lasers like those used to measure particles, or a geiger counter, like those used for measuring radiation given off by expiring half lives. No, in our industry we are very lucky, especially with `V8` as google provides it as open-source, this means it is free to use, access, and transform as we so need. We can access the `V8 Engine` source code [here](https://github.com/v8/v8) or via `git clone https://github.com/v8/v8.git`, from this point you can simply open your text editor of choice and view the files like any other project.
