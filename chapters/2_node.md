@@ -44,4 +44,15 @@ The main take away here is that, ultimately, when we are writing a program there
 
 It is important to understand, we don't write code for the benefit `processors` at all, yes the processor must understand the instruction set at the end of the line, but primarily we write code for humans (other developers) to make our programs readable, simpler to write, and easier to debug. This is why programming languages are much closer to natural language than `Machine Code`, if we were writing to optimise `processors`, and didn't need to worry about human understanding, we would just write `binary` and cut out the processing needing to compile our code down at all (if you haven't already worked out, this would be a nightmare for a human to do with the size and complexity of modern programs especially).
 
-So,what does each line of that machine code do you ask? it manipulates memory addresses, we wont go into detail here, but if you have an interest in delving into some machine code, you can checkout out my [Atari Repo](https://github.com/LukeMcCann/Atari_AssemblyProjects) which uses Assembly 6502/6507.
+So,what does each line of that machine code do you ask? it manipulates memory addresses, we wont go into detail here, but if you have an interest in delving into some machine code, you can checkout out my [Atari Repo](https://github.com/LukeMcCann/Atari_AssemblyProjects) which uses Assembly 6502/6507, this isn't quite machine code and is slightly easier to understand, but is a good starting point if you want to get into it. In modern codebases, you will notice that as time has moved forward, we have moved further away from this code, and it seems like we continue to do so, with further and further abstractions in higher level languages.
+
+
+<br />
+
+<div align="center" >
+<img src="../images/languages.png" width="400px">
+</div>
+
+<br />
+
+Whilst abstraction is great, and helps us to concentrate on our particular application features, rather than low level memory management, garbage collection, and handling, we also pay a price for that abstraction. Due to being so far removed from how our processor actually handles the requests it receives, we can develop an inaccurate mental model of how a tool such as `Node` is actually working.
