@@ -2,6 +2,10 @@
 
 In the previous chapter we spoke mostly of `Node`, it's `C++` core, and how this enables the extension of `JavaScripts` functionality. We know that `Node` uses the `V8` engine, and we know that there are many `JavaScript` engines, but what exactly is an engine? well, much like everything else, `JavaScript` engines are simply programs whose responsibility is to execute `JavaScript` code, the most popular `JavaScript` engine being the `V8` engine. We know that this particular engine powers not only server-side applications outside of the browser via and embedded version of it within `Node`, but also in the `chrome` browser. But... what if you didn't use `chrome`? currently, the most popular browsers on the market are `chrome`, `brave`, `safari`, `edge`, and `firefox`, do all of these run the `v8` engine? the short answer is no.
 
+<br />
+
+<div align="center">
+
 | Engine | Description |
 | --- | --- |
 | V8 | Open-source Engine used by Chrome and Node |
@@ -10,6 +14,10 @@ In the previous chapter we spoke mostly of `Node`, it's `C++` core, and how this
 | Rhino | Open-source Engine for Firefox |
 | Chakra | Engine for Microsoft Edge |
 | JerryScript | Engine for IoT |
+
+</div>
+
+<br />
 
 We have multiple engines, remember `JavaScript` is not understandable by the computer directly, it needs to be converted into a computer-understandable language, each engine handles this conversion. These engines differ slightly in how they conduct this task, but effectively solve the same problem.
 
