@@ -79,7 +79,7 @@ So what does the `V8 Engine` do? it is a program, yes, the `V8 Engine` is a prog
 
 In every walk of life, whether your a physicist, engineer, or anything else, `causality` is always at play, our actions have consequences, in the real world and the digital realm alike. We need to be able to understand and trace these consequences in order to determine how our actions will perform. With the `V8` engine, we are in luck. We don't need any high powered lasers like those used to measure particles, or a geiger counter, like those used for measuring radiation given off by expiring half lives. No, in our industry we are very lucky, especially with `V8` as google provides it as open-source, this means it is free to use, access, and transform as we so need. We can access the `V8 Engine` source code [here](https://github.com/v8/v8) or via `git clone https://github.com/v8/v8.git`, from this point you can simply open your text editor of choice and view the files like any other project. Take a look at some of the files, demystify the blackbox, understand that this is just `code` like any other program, we can learn to understand it, though there is a lot.
 
-A key feature of `V8` involved adding additional features to `JavaScript`. `V8` can run standalone, or embedded into any `C++` application. This means, if you are writing a `C++` program, you can embed `V8` inside of your program and use it. It also means if you are writing a `C++` program, you could even use it to translate others `JavaScript` code. Further, much like `React` `V8` has hooks we can use in our `JavaScript` code. When we write `JavaScript` code in `Node` it is passed to the `V8` engine (`C++`), this is compiled to `Machine Code`, we can also embed `V8` into our own `C++` program so that `JavaScript` code still gets run through `V8` to generate the `Machine Code` but because we are writing in `C++` we can use hooks to add features to `JavaScript`. `V8` is fundamentally `C++`, it is taking `JavaScript` and compiling it. As such, `V8` allows us to write our own `C++` code which we can make available to `JavaScript`, we can make it so that if someone writes a particular things in `JavaScript`, our `C++` code will be run, this means we can extend `JavaScript`s features adding our own features to the language as needed. This is incredibly powerful, `JavaScript` was not designed for low-level operations, it is therefore limited, it was designed to be run in a browser, `C++` however, is a lower-level language, it has many more features, and we can do a lot with it including interacting with our hardware and OS. Essentially, anything we can do in `C++` we can make available to `JavaScript`. You can see this if you try running the `load` function in `JavaScript`, it should throw an error, `load` is not a keyword in `JavaScript` it is not defined, but run it in the `Node REPL` and you will find it loads in the file you provide as an argument. This is because the `load` keyword in bound to a function in the `V8 C++` code, this means we can use it in our JavaScript code so long as the `Node` environment is running. 
+A key feature of `V8` involved adding additional features to `JavaScript`. `V8` can run standalone, or embedded into any `C++` application. This means, if you are writing a `C++` program, you can embed `V8` inside of your program and use it. It also means if you are writing a `C++` program, you could even use it to translate others `JavaScript` code. Further, much like `React` `V8` has hooks we can use in our `JavaScript` code. When we write `JavaScript` code in `Node` it is passed to the `V8` engine (`C++`), this is compiled to `Machine Code`, we can also embed `V8` into our own `C++` program so that `JavaScript` code still gets run through `V8` to generate the `Machine Code` but because we are writing in `C++` we can use hooks to add features to `JavaScript`. `V8` is fundamentally `C++`, it is taking `JavaScript` and compiling it. As such, `V8` allows us to write our own `C++` code which we can make available to `JavaScript`, we can make it so that if someone writes a particular things in `JavaScript`, our `C++` code will be run, this means we can extend `JavaScript`s features adding our own features to the language as needed. This is incredibly powerful, `JavaScript` was not designed for low-level operations, it is therefore limited, it was designed to be run in a browser, `C++` however, is a lower-level language, it has many more features, and we can do a lot with it including interacting with our hardware and OS. Essentially, anything we can do in `C++` we can make available to `JavaScript`. You can see this if you try running the `load` function in `JavaScript`, it should throw an error, `load` is not a keyword in `JavaScript` it is not defined, but run it in the `Node REPL` and you will find it loads in the file you provide as an argument. This is because the `load` keyword in bound to a function in the `V8 C++` code, this means we can use it in our JavaScript code so long as the `Node` environment is running.
 
 <br />
 
@@ -91,6 +91,48 @@ V8 Compile             |  V8 Embedded
 
 </div>
 
+</div>
+
+<br />
+
+### Client Server Model
+
+Whilst the focus of this document is on `Node` we must touch on the `Client Server Model` in order to understand what `Node` is. As previously intimated, `Node` is a backend technology, but what does this mean? A common pattern we often follow in web development is what we call the `Client Server model`. In this model we have two concepts; `client` and `server`. The `server` is the heavy lifter, the `server` accepts requests from our `client` and performs, requested tasks, and responds to the `client`. The `client` sends our `requests`, these `requests` ask for `services` which the `server` provides. The `client` may itself also do some work, however, much of the work is conducted on the `server`.
+
+<br />
+
+<div align="center" >
+<img src="../images/clientServerModel.png" width="400px">
+</div>
+
+<br />
+
+Traditionally, we would have a `client` machine sending a request to a `server` which would then do some work and respond with the answer, however, in the modern era it is important to make a distinction. Both of these concepts are just `programs`, often they are separate machines, for instance, my computer is a `client` when I browse to a particular web address, (for instance dns `google.co.uk` or ip `192.168.1.254`), a `request` is sent to the `server` and a webpage, in this case the google search engine, returned in the response. We can see this in action within our `devtools` via the `network` tab.
+
+<br />
+
+<div align="center">
+
+Client Request             |  Server Response
+:-------------------------:|:-------------------------:
+<img src="../images/googlereq.png" width="230px">  |  <img src="../images/googleres.png" width="250px">
+
+</div>
+
+</div>
+
+<br />
+
+This is the standard communication model for communication on the `web`. The standard `client` would be the browser,
+the standard server, our `web server` and a standard protocol for communication, usually `HTTP/HHTPS`. This is as far
+as we will go into the `server/client` communication model, just know that this is a very basic model, we of course
+also have `APIs` and various other forms of communication such as `websockets`, but this basic understanding will be
+sufficient for starting with `node`, we will get into these other concepts at as we approach them naturally. Note that if you have written any `JavaScirpt` as a frontend developer, you have already worked with the `V8` engine, things like `DOM Manipulation` are outside of the `EcmaScript` standard, this is because our browser (such as `chrome`) is a `C++` program with an embedded `V8` engine, this means it can extend the functionality of `JavaScript` which has become a standard for the web. You can see the features which are available to `JavaScript` from the browser at [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Window).
+
+<br />
+
+<div align="center" >
+<img src="../images/http.png" width="400px">
 </div>
 
 <br />
