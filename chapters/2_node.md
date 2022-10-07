@@ -136,3 +136,40 @@ sufficient for starting with `node`, we will get into these other concepts at as
 </div>
 
 <br />
+
+
+### JavaScript Server Requirements
+
+At one time when writing backend code we were forced to jump to another language. When I started I was writing the backend in `PHP`, this is still a highly popular method, as of the 7th October 2022 the usage rates are as such:
+
+<div align="center" >
+
+| Language | Usage |
+| --- | --- |
+| Python | 1.3% of Servers |
+| Node.js | 1.9% of Servers |
+| Ruby | 6% of Servers |
+| PHP | 78% of Servers |
+
+</div>
+
+<br />
+
+Yes we can see `Node` growing in popularity, around `50%` of companies use `Node` in some fashion, but the long established languages such as `PHP` are still heavily used, this is because of their popularity running on severs such as `Apache` and `Nginx`, these methods are battle tested across greater periods, and many legacy systems will likely remain using these technologies for years to come, those with trepidation towards `PHP` likely wont want to hear this. it's cool to hate on `PHP`, many of what you hear has actually been improved, much of the dislike comes from those who worked with `PHP` in infancy, `PHP4` and even `PHP5` were not overly pleasant to work with, nor did they have many of the quality of life features the newer version possess. Enough about `PHP` though, we want to talk about `Node`. Don't be disheartened by the previous paragraph, though it isn't yet as widely used `Node` is on an upward trend, it is still somewhat in it's infancy, but is being rapidly adopted by newer start up companies due to the speed at which it allows us to develop backends with smaller teams. It is not a holy grail, nothing ever is, and it does have it's issues, remember, we should always choose the best tool for the particular job, one piece of advice I would give, don't learn syntax, you can google syntax, learn concepts, by ensuring you understand a concept you should find yourself able to implement it in any language, using any tool, even if it means somewhat translating it at first, just remember, all `languages` have the same basic building blocks to work with.
+
+<br />
+
+<div align="center" >
+<img src="../images/nodepopularity.png" width="450px">
+</div>
+
+<br />
+
+So the question is, what did these languages have, that `JavaScript` didn't. What is needed for a `server-side` language to be viable, how do we extend `JavaScript` so that it can manage a `server`? for one, we need better ways of organising our code into reusable pieces. If you've ever written a frontend using vanilla JS, you will have seen  how messy the code can get. We include various `scripts`, we end up with a lot of code in a lot of places, unless you follow the `component` pattern which was actually possible even prior to `react`, click [here](https://github.com/Blue-Eyes-FrontEnd-Dragon/Star-Rating-Component/blob/master/js/rater.js) for a basic example project of this, we also need a method of dealing with `files` and `databases`, we almost always need a `database` with any kind of complex software, we need the ability to communicate over `sockets`, we also need a means of dealing with work that lasts a long time, and finally, we need the ability to communicate using out standard communication protocols for accepting requests and sending responses. `Node` solves these problems by adding this functionality to `JavaScript` for us, and in the next section we are going to talk about <em>how</em> `Node` does this.
+
+
+___
+
+<div align="right">
+
+[<< prev](./1_introduction.md) | [next >>](./3_nodecore.md)
