@@ -176,7 +176,7 @@ The accumulator is ancient in terms of computing technology. it is a register in
 
 </div>
 
-The accumulator is essentially the "thins" close the `CPU` in memory, it has fast access, much faster than main memory, anytime we want to conduct arithmetic via the `APU`, the results are stored by the accumulator. As stated, this is far faster to access than main memory, allowing us to conduct rapid calculations. Hence, `LdaSmi[5]` loading the value into the accumulator, specifying the value type as a `small integer` a `small integer` being an integer of roughly half the bytes of a normal `integer`, normal `integers` usually being around `4 bytes` this makes `small integers` commonly `2 bytes`.
+The accumulator is essentially the "thing" close the `CPU` in memory, it has fast access, much faster than main memory, anytime we want to conduct arithmetic via the `APU`, the results are stored by the accumulator. As stated, this is far faster to access than main memory, allowing us to conduct rapid calculations. Hence, `LdaSmi[5]` loading the value into the accumulator, specifying the value type as a `small integer` a `small integer` being an integer of roughly half the bytes of a normal `integer`, normal `integers` usually being around `4 bytes` this makes `small integers` commonly `2 bytes`.
 
 If we consider the next statement, `Return`, we know what a `return` usually does, it ceases execution of a function and returns the value to the right in terms of JS code execution, but what does it do in the context of the `accumulator`? as you may have guessed from the fact we are talking about the `accumulator`, in this context `Return` returns the `value` which is currently stored within the `accumulator` itself. Because we `load` the integer `5`, the return value will be `5`. If we simulate the `accumulator`, the first thing which happens is we enter the function, at this point in time the `accumulator` is blank. The first instruction executed is our `LdaSmi` instruction, this `loads` our value into the accumulator, at this point the accumulator now has value, next we `Return` the value in the accumulator and `end` the below table shows the accumulator value changes.
 
@@ -186,10 +186,10 @@ If we consider the next statement, `Return`, we know what a `return` usually doe
 
 | Instruction | Accumulator |
 | --- | --- |
-| <strong>[begin]</strong> | |
+| <strong>[begin]</strong> | - |
 | LdaSmi[5] | 5 |
 | Return | 5 |
-| <strong>[end]<strong> | |
+| <strong>[end]<strong> | - |
 
 </div>
 
@@ -198,9 +198,6 @@ If we consider the next statement, `Return`, we know what a `return` usually doe
 Just to really cement this in your mind, we can also simulate this using `JavaScript` itself, it is often a pattern used. Go ahead and run the script provided in `scripts/accumulator`, logging to `bytecode` to the console. Take a
 look at the `bytecode`, notice that this is doing exactly the same as the function previously. Notice, the interaction within the `accumulator` as to how the value changes, and understand that this is what occurs inside of your `APU` when the processor runs this `Machine code`.
 
-### Register Machines
-
-Right, now that we know what an `accumulator` is we can head back to our original discussion `Register Machines`.
 
 <pre>
 <code>
@@ -215,6 +212,40 @@ Right, now that we know what an `accumulator` is we can head back to our origina
 </code>
 </pre>
 
+### Register Machines
+
+Right, now that we know what an `accumulator` is we can head back to our original discussion `Register Machines`. `Registers` are used by the `accumulator` to store values for use at a later point of execution. If we want to define a `register` we can use the official definition "<em>A storage slot capable of storing a natural number</em>" simple right? it is somewhat like the `accumulator` in this manner, simply a piece of virtual memory for storing some value, provided that value is a natural number. When executing your code, every declaration you make is stored within a `register`. For this example we will use a slightly more complex function in `scripts/register`, you should output the `bytecode` of this function for analysis.
+
+<br />
+
+<div align="center">
+
+Code            |  Bytecode
+:-------------------------:|:-------------------------:
+ <img src="../images/registeradd5.png" width="300px"> |  <img src="../images/add5bytecode.png" width="800px">
+
+</div>
+
+</div>
+
+From our `bytecode` we can see the same command `LdaSmi` as we previously saw. From this we now know that we are loading a value of the type small integer into the `accumulator`. The next line down from this however, we see a new command `Star0`. Since we are talking about registers you can probably guess the `r` stands for `register`, `St` stands for `store` and, as before, `a` stands for accumulator. If we put this together we are saying "<em>Store the value in the accumulator at register 0</em>". Notice, we also have the `register count` which is no set to `1`.
+
+Next we see `AddSmi [5]`, the `Add` part is a mathematical operation, here we are saying to `add` the value provided to whatever `value` is stored in the `accumulator`, in this case `10`. Every identifier/declaration you make in `JavaScript` will have a representation mapped to a virtual register for it. In this case we assign `10` to `x`, this means that `x` will be mapped to virtual register `r0`. This may seem quite inefficient, we are assigning a value to `r0` but we don't actually do anything with it. This is where `compilation` and `optimisation` phases come in after we compile down to the virtual `bytecode`.
+
+<div align="center">
+
+| Instruction | Accumulator | Register0 |
+| --- | --- | --- |
+| <strong>[begin]</strong> | - | - |
+| LdaSmi[10] | 10 | - |
+| Star0 | 10 | 10 |
+| AddSmi[5] | 15  | 10 |
+| Return | 15 | - |
+| <strong>end</strong> | - | - |
+
+</div>
+
+<br />
 
 ___
 
@@ -234,8 +265,9 @@ Von Neumann Architecture <br /> [click here](https://www.sciencedirect.com/topic
 
 </div>
 
-
 </div>
+
+<br />
 
 ___
 
