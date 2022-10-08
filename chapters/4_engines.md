@@ -310,6 +310,29 @@ discussed previously, will add the value, this time in `r0`. Finally, we `return
 
 </div>
 
+We can yet again simulate these exact steps using JS for clarity:
+
+<pre>
+<code>
+function add5() {
+    let accumulator;
+    let r0;
+    let r1;
+
+    accumulator = 10;
+    r0 = accumulator;
+
+    accumulator = 5;
+    r1 = accumulator;
+
+    accumulator = r1;
+    accumulator += r0;
+
+    return accumulator;
+}
+</code>
+</pre>
+
 <br />
 
 ___
