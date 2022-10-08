@@ -166,12 +166,36 @@ outright matches to our JS, this means we already know instantly that this is th
 return of our function. As for the more interesting `LdaSmi`, this is actually a
 command, `Ld` stands for `load`, `a` stands for `accumulator`, `Smi` stands for `Small integer`, if we put all this together, what this is saying; "<em>load into the accumulator a small integer of the value 5</em>". This is a piece of `Assembly`, meaning it is in a human readable form, if we lookg ch is an interesting sectionto the left of this, we see `0d 05`, this is a piece of hexadecimal, `0c` being our instruction code `05` being the number value, if we change this to `return7` this number will change accordingly (give it a try!).
 
+### Accumulator
+
+The accumulator is ancient in terms of computing technology. it is a register in which the intermediate arithmetic logic unit results are stored. It has similarities to the `Turing Machine` and is also a part of the `Von Neumann Architecture` pictured here:
+
+<div align="center">
+
+<img src="../images/vonNeumanArchitecture.png" style="width: 350px">
+
+</div>
+
+The accumulator is essentially the "thins" close the `CPU` in memory, it has fast access, much faster than main memory, anytime we want to conduct arithmetic via the `APU`, the results are stored by the accumulator. As stated, this is far faster to access than main memory, allowing us to conduct rapid calculations. Hence, `LdaSmi[5]` loading the value into the accumulator, specifying the value type as a `small integer` a `small integer` being an integer of roughly half the bytes of a normal `integer`, normal `integers` usually being around `4 bytes` this makes `small integers` commonly `2 bytes`.
+
 ___
 
 <div style="font-size: 12px">
 
+<div align="left">
+
 If you'd like to learn <br /> more about parsing <br />
 digital ocean have a <br /> great article available <br /> [here](https://www.digitalocean.com/community/tutorials/js-v8-engine).
+
+<div>
+
+If you'd like to learn <br /> more about the <br />
+Von Neumann Architecture <br /> [click here](https://www.sciencedirect.com/topics/computer-science/von-neumann-architecture).
+
+</div>
+
+</div>
+
 
 </div>
 
