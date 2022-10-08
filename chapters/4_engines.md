@@ -289,7 +289,7 @@ into `r0`.  We then load our second value (`5`) into the `accumulator`, this rep
 Next `Star1` runs, this looks familiar, we can deduce that this command is storing the current accumulator value
 again, but, notice it is going to `r1` rather than `r0`. In the next step we see another new command `Ldar` we
 know that `Ld` will load a value, we also know that `a` is the `accumulator` and `r` is `register`, thus;
-"<em>Load the current accumulator value into register 1</em>". After this we run the `Add` command on `r0`, which, as
+"<em>Load the current register1 value back into the accumulator</em>". After this we run the `Add` command on `r0`, which, as
 discussed previously, will add the value, this time in `r0`. Finally, we `return` the `accumulator` value.
 
 <br />
