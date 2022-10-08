@@ -228,6 +228,8 @@ Code            |  Bytecode
 
 </div>
 
+<br />
+
 From our `bytecode` we can see the same command `LdaSmi` as we previously saw. From this we now know that we are loading a value of the type small integer into the `accumulator`. The next line down from this however, we see a new command `Star0`. Since we are talking about registers you can probably guess the `r` stands for `register`, `St` stands for `store` and, as before, `a` stands for accumulator. If we put this together we are saying "<em>Store the value in the accumulator at register 0</em>". Notice, we also have the `register count` which is no set to `1`.
 
 Next we see `AddSmi [5]`, the `Add` part is a mathematical operation, here we are saying to `add` the value provided to whatever `value` is stored in the `accumulator`, in this case `10`. Every identifier/declaration you make in `JavaScript` will have a representation mapped to a virtual register for it. In this case we assign `10` to `x`, this means that `x` will be mapped to virtual register `r0`. This may seem quite inefficient, we are assigning a value to `r0` but we don't actually do anything with it. This is where `compilation` and `optimisation` phases come in after we compile down to the virtual `bytecode`.
@@ -262,6 +264,51 @@ function add5() {
 }
 </code>
 </pre>
+
+Try out some different functions, check the `bytecode` for them, what happens if instead of setting a variable we simply return the result of the calculation for instance? to answer this question in particular you should write a simple function where to numbers are added, you will notice i the bytecode we only get one command run `LdaSmi`. This is because the `interpreter` is optimising our code, it knows we are taking two numbers and adding them together, so rather than waste the operation it just sets the result to the `accumulator`.
+
+Lets get a little more complex, how about adding two numbers.
+
+<br />
+
+<div align="center">
+
+Code            |  Bytecode
+:-------------------------:|:-------------------------:
+ <img src="../images/add2num.png" width="300px"> |  <img src="../images/add2numBytecode.png" width="800px">
+
+</div>
+
+</div>
+
+Here we see much of the same, except our `register count` is now `2` rather than `1` as before.
+This is because, as mentioned previously, every declaration we make will be associated with it's own
+virtual register. If we trace this through we first find that we have our `LdaSmi` loading the small integer
+`10` into the `accumulator`. The next line down we `store` the value currently in the `accumulator`, currently `10`,
+into `r0`.  We then load our second value (`5`) into the `accumulator`, this replaces the `accumulator` value.
+Next `Star1` runs, this looks familiar, we can deduce that this command is storing the current accumulator value
+again, but, notice it is going to `r1` rather than `r0`. In the next step we see another new command `Ldar` we
+know that `Ld` will load a value, we also know that `a` is the `accumulator` and `r` is `register`, thus;
+"<em>Load the current accumulator value into register 1</em>". After this we run the `Add` command on `r0`, which, as
+discussed previously, will add the value, this time in `r0`. Finally, we `return` the `accumulator` value.
+
+<br />
+
+<div align="center">
+
+| Instruction | Accumulator | Register0 | Register1 |
+| --- | --- | --- | --- |
+| <strong>[begin]</strong> | - | - | - |
+| LdaSmi[10] | 10 | - | - |
+| Star0 | 10 | 10 | - |
+| LdaSmi[5] | 5 | 10 | - |
+| Star1 | 5 | 10 | 5 |
+| Ldar r1 | 5 | 10 | 5 |
+| Add r0 | 15 | 10 | 5 |
+| Return | 15 | - | - |
+| <strong>[end]</strong> | - | - |
+
+</div>
 
 <br />
 
