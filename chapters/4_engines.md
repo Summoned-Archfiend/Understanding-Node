@@ -178,6 +178,24 @@ The accumulator is ancient in terms of computing technology. it is a register in
 
 The accumulator is essentially the "thins" close the `CPU` in memory, it has fast access, much faster than main memory, anytime we want to conduct arithmetic via the `APU`, the results are stored by the accumulator. As stated, this is far faster to access than main memory, allowing us to conduct rapid calculations. Hence, `LdaSmi[5]` loading the value into the accumulator, specifying the value type as a `small integer` a `small integer` being an integer of roughly half the bytes of a normal `integer`, normal `integers` usually being around `4 bytes` this makes `small integers` commonly `2 bytes`.
 
+If we consider the next statement, `Return`, we know what a `return` usually does, it ceases execution of a function and returns the value to the right in terms of JS code execution, but what does it do in the context of the `accumulator`? as you may have guessed from the fact we are talking about the `accumulator`, in this context `Return` returns the `value` which is currently stored within the `accumulator` itself. Because we `load` the integer `5`, the return value will be `5`. If we simulate the `accumulator`, the first thing which happens is we enter the function, at this point in time the `accumulator` is blank. The first instruction executed is our `LdaSmi` instruction, this `loads` our value into the accumulator, at this point the accumulator now has value, next we `Return` the value in the accumulator and `end` the below table shows the accumulator value changes.
+
+<br />
+
+<div align="center">
+
+| Instruction | Accumulator |
+| --- | --- |
+| <strong>[begin]</strong> | |
+| LdaSmi[5] | 5 |
+| Return | 5 |
+| <strong>[end]<strong> | |
+
+</div>
+
+<br />
+
+
 ___
 
 <div style="font-size: 12px">
