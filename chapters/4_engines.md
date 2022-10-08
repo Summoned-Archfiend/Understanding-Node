@@ -242,7 +242,7 @@ Next we see `AddSmi [5]`, the `Add` part is a mathematical operation, here we ar
 | LdaSmi[10] | 10 | - |
 | Star0 | 10 | 10 |
 | AddSmi[5] | 15  | 10 |
-| Return | 15 | - |
+| Return | 15 | 10 |
 | <strong>end</strong> | - | - |
 
 </div>
@@ -305,8 +305,8 @@ discussed previously, will add the value, this time in `r0`. Finally, we `return
 | Star1 | 5 | 10 | 5 |
 | Ldar r1 | 5 | 10 | 5 |
 | Add r0 | 15 | 10 | 5 |
-| Return | 15 | - | - |
-| <strong>[end]</strong> | - | - |
+| Return | 15 | 10 | 5 |
+| <strong>[end]</strong> | - | - | - |
 
 </div>
 
