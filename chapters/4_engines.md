@@ -166,7 +166,7 @@ outright matches to our JS, this means we already know instantly that this is th
 return of our function. As for the more interesting `LdaSmi`, this is actually a
 command, `Ld` stands for `load`, `a` stands for `accumulator`, `Smi` stands for `Small integer`, if we put all this together, what this is saying; "<em>load into the accumulator a small integer of the value 5</em>". This is a piece of `Assembly`, meaning it is in a human readable form, if we lookg ch is an interesting sectionto the left of this, we see `0d 05`, this is a piece of hexadecimal, `0c` being our instruction code `05` being the number value, if we change this to `return7` this number will change accordingly (give it a try!).
 
-### Accumulator
+### The Accumulator
 
 The accumulator is ancient in terms of computing technology. it is a register in which the intermediate arithmetic logic unit results are stored. It has similarities to the `Turing Machine` and is also a part of the `Von Neumann Architecture` pictured here:
 
@@ -197,6 +197,10 @@ If we consider the next statement, `Return`, we know what a `return` usually doe
 
 Just to really cement this in your mind, we can also simulate this using `JavaScript` itself, it is often a pattern used. Go ahead and run the script provided in `scripts/accumulator`, logging to `bytecode` to the console. Take a
 look at the `bytecode`, notice that this is doing exactly the same as the function previously. Notice, the interaction within the `accumulator` as to how the value changes, and understand that this is what occurs inside of your `APU` when the processor runs this `Machine code`.
+
+### Register Machines
+
+Right, now that we know what an `accumulator` is we can head back to our original discussion `Register Machines`.
 
 <pre>
 <code>
