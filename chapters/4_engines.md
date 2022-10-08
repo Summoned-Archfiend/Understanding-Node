@@ -195,6 +195,22 @@ If we consider the next statement, `Return`, we know what a `return` usually doe
 
 <br />
 
+Just to really cement this in your mind, we can also simulate this using `JavaScript` itself, it is often a pattern used. Go ahead and run the script provided in `scripts/accumulator`, logging to `bytecode` to the console. Take a
+look at the `bytecode`, notice that this is doing exactly the same as the function previously. Notice, the interaction within the `accumulator` as to how the value changes, and understand that this is what occurs inside of your `APU` when the processor runs this `Machine code`.
+
+<pre>
+<code>
+    // [] - This variable simulates our accumulator
+    let accumulator;
+
+    // LdaSmi[5] - here we set the value of the accumulator
+    accumulator = 5;
+
+    // [5] - Lastly we return the value inside the accumulator
+    return accumulator;
+</code>
+</pre>
+
 
 ___
 
