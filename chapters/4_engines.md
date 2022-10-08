@@ -41,7 +41,7 @@ Using it's proprietary parser, it generates an abstract syntax tree. Then igniti
 Recently, there has been a new addition to `v8` called `SparkPlug`, this is present between `Ignition` and `TurboFan`, it is also called the `Fast Compiler`.
 
 <div align="center">
-
+st a = 1;
 <img src="../images/javascript_journey.png" style="width: 350px">
 
 </div>
@@ -84,6 +84,57 @@ Webkit engine is developed by `Apple` and used in the `Safari` browser, as well 
 </details>
 
 <br />
+
+## Parsing
+
+The `v8` parser also has a preparser, but in an admission from `google` the preparser is actually currently sueless for most modern JS. Additionally, the inner functions must be re-parsed unless they are compiled in the outer function, this means that unless we wrap out functions, they are lazy loaded, unlike variables which are eager loaded, below is a code example of this.
+
+<pre>
+<code>
+// variable declarations are eager parsed
+const a = 1;
+const b = 2;
+
+// functions are lazily parsed due to the cost of eager parsing
+// since we don't need it right away.
+function sum(....args) {
+    return args.reduce(function (acc, cur) {
+        return acc + cur;
+    })
+};
+
+// the parser returns to parse the sum as we use it
+sum(1, 2, 3);
+</code>
+</pre>
+
+Here our declarations will be eager parsed, however, the function is instead lazily parsed, this is great for performance as a lazily parsed function has a cost at a `1*x` flat-rate on initial load, x being the additional unknown cost of conducting scope resolution of inner functions and serializing it. However, once this function is actually used the flat-rate goes up to `3*x`. We can instead force functions to eager load by wrapping them.
+
+<pre>
+<code>
+// variable declarations are eager parsed
+const a = 1;
+const b = 2;
+
+// since we wrap this in an IIFE (immediately invoked function expression)
+// the function is eager loaded into memory right away.
+const sum = (function(...args) {
+    return args.reduce(function (acc, cur) {
+        return acc + cur;
+    })
+})();
+
+// we can use this right away as we have eager parsed
+// already
+sum(1, 2, 3);
+</code>
+</pre>
+
+The advantage of eager compilation is that we can drop the `3.x` cost to 2 for all top-level functions known to be executed immediately. It only matters from the top-level though. If we don't decide to eagerly parse as part of the main compile job
+we may as well wait until it is executed, since then at least we are certain that we only pay the compile cost (2 for parse, 2 for compile) for functions we actually use. This applies to the above example where we have an accumulator function declared within our function, since the top-level is the only part which matters in this circumstance we eager-load the top-level function, however, the inner accumulator will still only be loaded as and when it is used.
+
+The downside of this? eager compilation requires us to keep the AST around in memory between the parse and compilations steps. This increases peak memory usage significantly, if we could pre-parse inner functions of eagerly parsed functions this would properly work out better. On low-memory devices, it would be better to disable eager heuristics entirely. Theoretically the data could be serialized on a warm startup, this way we never need to look at unused code, this would make top-level compilation heuristics irrelevant.
+
 
 ___
 
