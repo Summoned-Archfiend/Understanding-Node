@@ -41,7 +41,7 @@ Using it's proprietary parser, it generates an abstract syntax tree. Then igniti
 Recently, there has been a new addition to `v8` called `SparkPlug`, this is present between `Ignition` and `TurboFan`, it is also called the `Fast Compiler`.
 
 <div align="center">
-st a = 1;
+
 <img src="../images/javascript_journey.png" style="width: 350px">
 
 </div>
