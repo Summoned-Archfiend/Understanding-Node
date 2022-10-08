@@ -161,6 +161,11 @@ Code            |  Bytecode
 
 <br />
 
+Taking a look at the bytecode we see that on the second line down we have the name of the function, followed by the pointer to the function. It also has a count of parameters, registers, nesting level, age, and a frame size. Then we see `LdaSmi 5` followed by a `return`. This is an interesting section, we can see that the return
+outright matches to our JS, this means we already know instantly that this is the
+return of our function. As for the more interesting `LdaSmi`, this is actually a
+command, `Ld` stands for `load`, `a` stands for `accumulator`, `Smi` stands for `Small integer`, if we put all this together, what this is saying; "<em>load into the accumulator a small integer of the value 5</em>". This is a piece of `Assembly`, meaning it is in a human readable form, if we lookg ch is an interesting sectionto the left of this, we see `0d 05`, this is a piece of hexadecimal, `0c` being our instruction code `05` being the number value, if we change this to `return7` this number will change accordingly (give it a try!).
+
 ___
 
 <div style="font-size: 12px">
