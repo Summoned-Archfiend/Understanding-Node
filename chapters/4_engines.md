@@ -87,7 +87,7 @@ Webkit engine is developed by `Apple` and used in the `Safari` browser, as well 
 
 ## Parsing
 
-The `v8` parser also has a preparser, but in an admission from `google` the preparser is actually currently sueless for most modern JS. Additionally, the inner functions must be re-parsed unless they are compiled in the outer function, this means that unless we wrap out functions, they are lazy loaded, unlike variables which are eager loaded, below is a code example of this.
+The `v8` parser also has a preparser, but in an admission from `google` the pre-parser is actually currently useless for most modern JS. Additionally, the inner functions must be re-parsed unless they are compiled in the outer function, this means that unless we wrap out functions, they are lazy loaded, unlike variables which are eager loaded, below is a code example of this.
 
 <pre>
 <code>
@@ -97,7 +97,7 @@ const b = 2;
 
 // functions are lazily parsed due to the cost of eager parsing
 // since we don't need it right away.
-function sum(....args) {
+function sum(...args) {
     return args.reduce(function (acc, cur) {
         return acc + cur;
     })
@@ -121,11 +121,11 @@ const b = 2;
 const sum = (function(...args) {
     return args.reduce(function (acc, cur) {
         return acc + cur;
-    })
+    }, 0)
 })();
 
 // we can use this right away as we have eager parsed
-// already
+// alreadyarray
 sum(1, 2, 3);
 </code>
 </pre>
@@ -135,6 +135,31 @@ we may as well wait until it is executed, since then at least we are certain tha
 
 The downside of this? eager compilation requires us to keep the AST around in memory between the parse and compilations steps. This increases peak memory usage significantly, if we could pre-parse inner functions of eagerly parsed functions this would properly work out better. On low-memory devices, it would be better to disable eager heuristics entirely. Theoretically the data could be serialized on a warm startup, this way we never need to look at unused code, this would make top-level compilation heuristics irrelevant.
 
+## Interpreter
+
+As asserted earlier, `Ignition` is the interpreter used for `V8`, as such, we will focus our discussion here particularly on `Ignition`. `Ignition` is another type of engine, this is what we would call a `Register Machine`. In terms of mathematical logic and theoretical computer science a register machine is generic classification of machine used in a manner similar to a `turing machine`. As a quick overview, once the `register machine` is created it creates a virtual bytecode which is abstracted away from any particular machine implementation, this will run through the `optimisers`, eventually this runs through the `compiler`, which produces the machine specific code for our particular processor. It is possible to view this code in any given script using the `node` flag `--print-bytecode`, additionally we may provide a `filter` flag with this to condense down our output to only display the `Machine Code` to our particular code.
+
+<pre>
+<code>
+node --print-bytecode --print-bytecode-filter=[functionName] [filename]
+</code>
+</pre>
+
+Remember, when we compile to `Machine Code` there can be a lot generated, for very little, it is also incredibly difficult for humans to understand if you have not been exposed to it before, to illustrate this point I have created a script with a function `return5`. This function is incredibly simplistic, but if we output the `bytecode` we get:
+
+<br />
+
+<div align="center">
+
+Code            |  Bytecode
+:-------------------------:|:-------------------------:
+ <img src="../images/return5.png" width="200px"> |  <img src="../images/return5bytecode.png" width="800px">
+
+</div>
+
+</div>
+
+<br />
 
 ___
 

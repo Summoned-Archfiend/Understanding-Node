@@ -2,13 +2,14 @@
 const a = 1;
 const b = 2;
 
-// functions are lazily parsed due to the cost of eager parsing
-// since we don't need it right away.
+// since we wrap this in an IIFE (immediately invoked function expression)
+// the function is eager loaded into memory right away.
 const sum = (function(...args) {
     return args.reduce(function (acc, cur) {
         return acc + cur;
-    })
+    }, 0)
 })();
 
-// the parser returns to parse the sum as we use it
+// we can use this right away as we have eager parsed
+// alreadyarray
 sum(1, 2, 3);
