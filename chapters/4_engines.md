@@ -245,6 +245,24 @@ Next we see `AddSmi [5]`, the `Add` part is a mathematical operation, here we ar
 
 </div>
 
+If you want an adequate JS representation of this behaviour, like we did previously, take a look at the following code:
+
+<pre>
+<code>
+function add5() {
+    let accumulator;
+    let r0;
+
+    accumulator = 10;
+    r0 = accumulator;
+
+    accumulator += 5;
+
+    return accumulator;
+}
+</code>
+</pre>
+
 <br />
 
 ___
