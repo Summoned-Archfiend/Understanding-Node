@@ -409,6 +409,45 @@ Now try filtering the `bytecode` output to our `validFunAdd2numbers`. Notice thi
 
 <br />
 
+Our final example here is going to be with `scopes`. You will find the function for this in the same location as the prior functions, filtering the output to `scopeAdd2numbers`. You will notice in the JS we have declared another scope within the function using `{}`. This scope contains calculations using variables named the same as the variables within the upper scope, however, notice we are using `block-scoped` variable declarations as well. What do you think will happen here? You should expect that the return value will be `30` as the inner scope will not affect the outer scope, although we are using the same variable names the outer declarations are out of scope within the inner scope, thus are treated as different variables, however, if you log in the inner scope you should expect to see `70`. Lets take a look at how this is handled in our `Register Machine`.
+
+<div align="center">
+<img src="../images/scopebytecode.png">
+</div>
+
+The first thing you should take note of is the number of `registers`, notice there are now `6` where in our preexistent example there were but `3`. This is already evidence of the behaviour we suspected to occur, we have double the number of registers, because we have a register for each declaration. This means, whilst our variables are sharing a name, they are considered entirely different declarations due to their scope. Notice however, that the `bytecode` itself does nothing different, it does not care for `scope` in the slightest, all it is doing is assigning registers, the `scoping` itself is actually done in the `parsing` phase at the `AST` level. You can test this by removing the scope from the function, and changing the variable names so that the code runs, you will notice the exact same `bytecode` is generated.
+
+
+<br />
+
+<div align="center">
+
+| Instruction | Accumulator | r0 | r1 | r2 | r3 | r4 | r5 | r6 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| <strong>[begin]</strong> | - | - | - | - | - | - | - | - |
+| LadSmi[10] | 10 | - | - | - | - | - | - | - |
+| Star0 | 10 | 10 | - | - | - | - | - | - |
+| LdaSmi[20] | 20 | 10 | - | - | - | - | - | - |
+| Star1 | 20 | 10 | 20 | - | - | - | - | - |
+| Ldar r1 | 20 | 10 | 20 | - | - | - | - | - |
+| Add r0 | 30 | 10 | 20 | - | - | - | - | - |
+| Star2 | 30 | 10 | 20 | 30 | - | - | - | - |
+| LdaSmi[30] | 30 | 10 | 20 | 30 | - | - | - | - |
+| Star3 | 30 | 10 | 20 | 30 | 30 | - | - | - |
+| LdaSmi[40] | 40 | 10 | 20 | 30 | 30 | - | - | - |
+| Star4 | 40 | 10 | 20 | 30 | 30 | 40 | - | - |
+| Ldar r4 | 40 | 10 | 20 | 30 | 30 | 40 | - | - |
+| Add r3 | 70 | 10 | 20 | 30 | 30 | 40 | - | - |
+| Star5 | 70 | 10 | 20 | 30 | 30 | 40 | 70 | - |
+| Ldar r2 | 30 | 10 | 20 | 30 | 30 | 40 | 70 | - |
+| Return | 30 | 10 | 20 | 30 | 30 | 40 | 70 | - |
+| <strong>[end]</strong> | - | - | - | - | - | - | - | - |
+
+</div>
+
+<br />
+
+
 ___
 
 <div style="font-size: 12px">
