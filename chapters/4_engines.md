@@ -335,6 +335,80 @@ function add5() {
 
 <br />
 
+### Scopes
+
+When generating the `bytecode` we have the option of using `var`, `const`, or `let` for creating variables. If you haven't already guessed, each of these have differences in the generated `bytecode` due to `scope`. First of all we will use the `add2numbers` function in the `scripts/scopes` directory. When we generate the `bytecode` for this it is just the same as we had prior (as we have used `const` already to declare our variables):
+
+<div align="center">
+
+| Instruction | Accumulator | Register0 | Register1 |
+| --- | --- | --- | --- |
+| <strong>[begin]</strong> | - | - | - |
+| LdaSmi[10] | 10 | - | - |
+| Star0 | 10 | 10 | - |
+| LdaSmi[20] | 20 | 10 | - |
+| Star1 | 20 | 10 | 20 |
+| Ldar r1 | 20 | 10 | 20 |
+| Add r0 | 30 | 10 | 20 |
+| Return | 30 | 10 | 20 |
+| <strong>[end]</strong> | - | - | - |
+
+</div>
+
+<br />
+
+Now filter to use the `let` version of the function. Notice any difference? exactly! from a `bytecode` perspective `const` and `let` produce exactly the same results. There may be some difference prior to this in the `parsing` phase, but after this point the `bytecode` generated is exactly the same. `const` is declared and `immutable`, you can only change the reference not the value. This is usually more effective and we should use `const` by default, it makes our code simpler, cleaner, and makes us think twice before reassigning a value to the same variable.
+
+Now try generating the bytecode for `funAdd2numbers`. This code will throw an exception, this is because we are using a variable before it's declaration. We receive an interesting response in the `bytecode`.
+
+<div align="center">
+<img src="../images/holebytecode.png">
+</div>
+
+The very first command here `LdaTheHole`, we know that `Lda` is telling our processor to `load` into the `accumulator` at this point, but what exactly is this value `TheHole`? this is a value that should never happen, it represents our declaration of `n2` in our code, where we declare it after it has already been used. This shouldn't exist, as we just stated, yet `TheHole` is loaded into the `accumulator` at this point. This is because we have to have a register for every declaration, this means it has to have some value, it cannot be undefined, as it is not yet initialised. Thus, the way `v8` handles the undeclared variable is to refer to it as `TheHole`. We can see further down we `load` the value of `r2` into the `accumulator` again, right after this, if `TheHole` still exists (no value has been assigned) then a reference error is thrown via: `ThrowReferenceErrorIfHole`. The reason for this is that if we simply set this register to `undefined` the behaviour would then be the same as using `var` (which has a global scope), the reason we prefer `let` and `const` is because they are block-scoped, this means we cannot access them from just anywhere in the application, making for greater traceability, along with less complexity due to imperceptive `magic` occurring.
+
+<br />
+
+<div align="center">
+
+| Instruction | Accumulator | Register0 | Register1 | Register2 |
+| --- | --- | --- | --- | --- |
+| <strong>[begin]</strong> | - | - | - | - |
+| LdaTheHole | TheHole | - | - | - |
+| Star2 | TheHole | - | - | TheHole |
+| LdaSmi | 20 | - | - | TheHole |
+| Star0 | 20 | 20 | - | TheHole |
+| Ldar r2 | TheHole | 20 | - | TheHole |
+| ThrowReferenceErrorIfHole | TheHole | 20 | - | TheHole |
+| <strong>[error]</strong> | - | - | - | - |
+
+</div>
+
+<br />
+
+Now try filtering the `bytecode` output to our `validFunAdd2numbers`. Notice this function is exactly the same declaration, except, our `n2` declaration is now in the `global` scope. This variable becomes available due to the JS concept known as `hoisting` where the declaration is `hoisted` to the top of the execution, this means that although the `var` declaration sits below its usage it is `hoisted` to the top of the execution and therefore available prior to it's definition. Generating the `bytecode` for this function you should see that we are back to having `clean` looking `bytecode` as we have seen prior. The interesting thing you will notice here is that three instructions in we have `Ldar2`. As we know, this will load the value from `r2` into the `accumulator`, however, we haven't actually loaded a value into `r2` yet, as this is the var which has been `hoisted`. For `registers` if we haven't set a value in the register which is being accessed, the value is instead set to `undefined`. Noting the table below you wll notice that each time we do our addition within the `accumulator` we will be adding `undefined`, this means our result in the `accumulator` at each phase will be `undefined` (<em>n + undefined = undefined</em>). This is exactly how `hoisting` and `scopes` work at the lower level.
+
+<br />
+
+<div align="center">
+
+| Instruction | Accumulator | Register0 | Register1 | Register2 |
+| --- | --- | --- | --- | --- |
+| <strong>[begin]</strong> | - | - | - | - |
+| LdaSmi[20] | 20 | - | - | - |
+| Star0 | 20 | 20 | - | - |
+| Ldar r2 | undefined | 20 | - | undefined |
+| Add r0 | undefined | 20 | - | undefined |
+| Star1 | undefined | 20 | undefined | undefined |
+| Ldar r2 | undefined | 20 | undefined | undefined |
+| Add r0 | undefined | 20 | undefined | undefined |
+| Return | undefind | 20 | undefined | undefined |
+| <strong>[end]</strong> | - | - | - | - |
+
+</div>
+
+<br />
+
 ___
 
 <div style="font-size: 12px">
