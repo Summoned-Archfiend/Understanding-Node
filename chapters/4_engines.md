@@ -50,7 +50,7 @@ Recently, there has been a new addition to `v8` called `SparkPlug`, this is pres
 
 <br />
 
-<details open>
+<details>
 <summary>Chakra</summary>
 
 Our next engine is `Chakra`, this is an engine developed by `Microsoft` as proprietary software. `Chakra` is used in the `Internet Explorer` web browser, a key feature of this is that it use `just-in-time compilation`, this is a way of executing computer code that involves compilation during the execution of the program. `Chakra` does this on a separate core parallel to the browser process.
@@ -63,7 +63,7 @@ Our next engine is `Chakra`, this is an engine developed by `Microsoft` as propr
 
 </details>
 
-<details open>
+<details>
 <summary>Spider Monkey</summary>
 
 Yes, this is a strange name for an engine, it sounds like some sort of `spider-man` knockoff hero, but actually, it was the actually the first `JavaScript` engine, and is currently maintained by `Mozilla`.
@@ -76,7 +76,7 @@ Yes, this is a strange name for an engine, it sounds like some sort of `spider-m
 
 </details>
 
-<details open>
+<details>
 <summary>Webkit</summary>
 
 Webkit engine is developed by `Apple` and used in the `Safari` browser, as well as on all other `IOS` browsers, this includes `PlayStation` consoles from sony, and even with some `Amazon` kindles. Webkits `C++` API procides a set of classes to display web content in windows, implements browser features such as following links, manageing back-forward lists, history, and more.
@@ -457,7 +457,16 @@ The first thing you should take note of is the number of `registers`, notice the
 
 <br />
 
+That is as far as we are going to delve here for now. I hope this isn't too much information all at once,
+if you are struggling to understand this, stay here, play around, and explore until you have a grasp
+on what this is doing at a low level. In the next section we are going to discuss `parsing` some more,
+mostly in the context which we will be using it in `Node` and `JavaScript`. We touched on this briefly
+in this chapter, however, we will delve into greater detail as to how we can use this information
+in development, how it can help us to understand our code at a lower level, how the `callback queue` works,
+and how we are able to run our extended `C++` functions in the browser, and on our `server` from `JavaScript`
+to gain additional functionalities not available in JS.
 
+<br />
 ___
 
 <div style="font-size: 12px">
