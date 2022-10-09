@@ -339,6 +339,8 @@ function add5() {
 
 When generating the `bytecode` we have the option of using `var`, `const`, or `let` for creating variables. If you haven't already guessed, each of these have differences in the generated `bytecode` due to `scope`. First of all we will use the `add2numbers` function in the `scripts/scopes` directory. When we generate the `bytecode` for this it is just the same as we had prior (as we have used `const` already to declare our variables):
 
+<br />
+
 <div align="center">
 
 | Instruction | Accumulator | Register0 | Register1 |
@@ -361,9 +363,13 @@ Now filter to use the `let` version of the function. Notice any difference? exac
 
 Now try generating the bytecode for `funAdd2numbers`. This code will throw an exception, this is because we are using a variable before it's declaration. We receive an interesting response in the `bytecode`.
 
+<br />
+
 <div align="center">
 <img src="../images/holebytecode.png">
 </div>
+
+<br />
 
 The very first command here `LdaTheHole`, we know that `Lda` is telling our processor to `load` into the `accumulator` at this point, but what exactly is this value `TheHole`? this is a value that should never happen, it represents our declaration of `n2` in our code, where we declare it after it has already been used. This shouldn't exist, as we just stated, yet `TheHole` is loaded into the `accumulator` at this point. This is because we have to have a register for every declaration, this means it has to have some value, it cannot be undefined, as it is not yet initialised. Thus, the way `v8` handles the undeclared variable is to refer to it as `TheHole`. We can see further down we `load` the value of `r2` into the `accumulator` again, right after this, if `TheHole` still exists (no value has been assigned) then a reference error is thrown via: `ThrowReferenceErrorIfHole`. The reason for this is that if we simply set this register to `undefined` the behaviour would then be the same as using `var` (which has a global scope), the reason we prefer `let` and `const` is because they are block-scoped, this means we cannot access them from just anywhere in the application, making for greater traceability, along with less complexity due to imperceptive `magic` occurring.
 
@@ -411,9 +417,13 @@ Now try filtering the `bytecode` output to our `validFunAdd2numbers`. Notice thi
 
 Our final example here is going to be with `scopes`. You will find the function for this in the same location as the prior functions, filtering the output to `scopeAdd2numbers`. You will notice in the JS we have declared another scope within the function using `{}`. This scope contains calculations using variables named the same as the variables within the upper scope, however, notice we are using `block-scoped` variable declarations as well. What do you think will happen here? You should expect that the return value will be `30` as the inner scope will not affect the outer scope, although we are using the same variable names the outer declarations are out of scope within the inner scope, thus are treated as different variables, however, if you log in the inner scope you should expect to see `70`. Lets take a look at how this is handled in our `Register Machine`.
 
+<br />
+
 <div align="center">
 <img src="../images/scopebytecode.png">
 </div>
+
+<br />
 
 The first thing you should take note of is the number of `registers`, notice there are now `6` where in our preexistent example there were but `3`. This is already evidence of the behaviour we suspected to occur, we have double the number of registers, because we have a register for each declaration. This means, whilst our variables are sharing a name, they are considered entirely different declarations due to their scope. Notice however, that the `bytecode` itself does nothing different, it does not care for `scope` in the slightest, all it is doing is assigning registers, the `scoping` itself is actually done in the `parsing` phase at the `AST` level. You can test this by removing the scope from the function, and changing the variable names so that the code runs, you will notice the exact same `bytecode` is generated.
 
