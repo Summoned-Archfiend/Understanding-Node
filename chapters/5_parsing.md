@@ -36,3 +36,5 @@ As such, reading line by line is absolutely fine, it is exactly how this code is
 if we have function declarations? what happens if we have multiple contexts? this is what we are going to explore.
 
 ## Execution Contexts
+
+<!-- TODO: discuss execution contexts, communication with browser and C++ function including libuv and sockets -->
