@@ -8,10 +8,14 @@ Okay, so lets put on our investigative hat, and get to work. Open the `Node` rep
 
 <br />
 
+<div align="center">
+
 | Folder | Description |
 | --- | --- |
 | deps | Dependencies built outside of Node that are part of Node |
 | src | Source files |
+
+</div>
 
 <br />
 
