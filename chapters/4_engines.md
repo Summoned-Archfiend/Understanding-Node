@@ -1,8 +1,8 @@
 # JavaScript engines
 
-In the previous chapter we spoke mostly of `Node`, it's `C++` core, and how this enables the extension of `JavaScripts` functionality. We know that `Node` uses the `V8` engine, and we know that there are many `JavaScript` engines, but what exactly is an engine? well, much like everything else, `JavaScript` engines are simply programs whose responsibility is to execute `JavaScript` code, the most popular `JavaScript` engine being the `V8` engine. We know that this particular engine powers not only server-side applications outside of the browser via and embedded version of it within `Node`, but also in the `chrome` browser. But... what if you didn't use `chrome`? currently, the most popular browsers on the market are `chrome`, `brave`, `safari`, `edge`, and `firefox`, do all of these run the `v8` engine? the short answer is no.
+In the previous chapter we spoke mostly of `Node`, it's `C++` core, and how this enables the extension of `JavaScript`s functionality. We know that `Node` uses the `V8` engine, and we know that there are many `JavaScript` engines, but what exactly is an engine? well, much like everything else, `JavaScript` engines are simply programs whose responsibility is to execute `JavaScript` code, the most popular of which is the `V8` engine. We know that this particular engine powers not only server-side applications outside of the browser via an embedded version of `V8` within `Node`, but also within the `chrome` browser itself. This posits a new question: what if you didn't use `chrome`? currently, the most popular browsers on the market are `chrome`, `brave`, `safari`, `edge`, and `firefox`, do all of these run the `v8` engine? the short answer is no.
 
-Generally, a `JavaScript` engine utilises the pipeline pattern, We begin with the JS code being passed to the `parser`, the `parser` divides the code into multiple tokens, this is converted into an `abstract syntax tree` (a tree-like structure that represents functions, conditionals, scopes, etc...). The `abstract syntax tree` is  then passed to the interpreter which converts the code into `bytecode`. Concurrently (at the same time) the engine is actually running the `JavaScript` code, `bytecode` is used by optimising the compiler along with profiling data, optimisation of the compiler makes certain assumptions based on profiling data and produces highly optimised machine code. Occasionally the optimisation assumption will be incorrect, at this point the previous version is invoked by the "deoptimise" phase, usually, engines will optimise hot functions and use inline caching techniques to optimise code.
+Generally, `JavaScript` engines utilise the pipeline pattern. We begin with our JS code being passed to the `parser`, which then divides the code into multiple tokens. The generated tokens are further converted into an `Abstract Syntax Tree (AST)`. This is a tree-like structure that represents functions, conditionals, scopes, etc... The `AST` is  then passed to the `interpreter` which converts the `AST` representation into `bytecode`. Concurrently, the engine is actually running the `JavaScript` code, `bytecode` is used by optimising the compiler along with profiling data, optimisation of the compiler makes certain assumptions based on profiling data and produces highly optimised machine code. Occasionally the optimisation assumption will be incorrect, at this point the previous version is invoked by the `Deoptimise` phase. Usually, an engine will optimise hot functions and use inline caching techniques to achieve an optimal version of our code output.
 
 <br />
 
@@ -29,16 +29,14 @@ Generally, a `JavaScript` engine utilises the pipeline pattern, We begin with th
 
 <br />
 
-We have multiple engines, remember `JavaScript` is not understandable by the computer directly, it needs to be converted into a computer-understandable language, each engine handles this conversion. These engines differ slightly in how they conduct this task, but effectively solve the same problem.
+Recall `JavaScript` is not understandable by the computer directly, it needs to be converted into a computer-understandable language, each engine handles this conversion differently, thus we have multiple engines. Whilst engines may vary in how they conduct this task they effectively solve the same problem in at least a similar manner.
 
 <details open>
 <summary>V8</summary>
 
-V8 has an edge on other engines, there is a reason it became so popular. Not only can V8 run both on the browser and on a machine using `Node`, but as we learned previously, we have control over extending functionality ourselves due to it's open-source nature. It can also be embedded into any `C++` application we may write. `v8` also allows for `JavaScript` code to run much faster, which improves the end user experience, paves the way for the development of web applications (and SPAs), and allows smaller teams of devs specialising in `JavaScript` to operate across the entire stack.
+`V8` has an edge which elevates it above other engines (there is a reason it became so popular!). Not only can `V8` run both on the browser and directly on a machine using `Node` but, as we learned previously, we have control over expanding the functionality ourselves due to `V8`'s open-source nature. `V8` may also be embedded into any `C++` application we write; it also allows for `JavaScript` code to run much faster (which improves the end user experience), paves the way for the development of web applications (and SPAs), and allows smaller teams of devs specialising in `JavaScript` to operate across the entire stack.
 
-Using it's proprietary parser, it generates an abstract syntax tree. Then ignition (the interpreter) generates bytecode from this tree using the internal `v8` bytecode format. Bytecode is then compiled into machine code by TurboFan (the optimising compiler) which also handle the memory allocation for objects. Garbage collection collects the objects which are no longer needed. It also utilises optimisation techniques such as [elision](https://www.geeksforgeeks.org/copy-elision-in-c/) (the art of omitting unnecessary objects from a copy) of expensive runtime properties, and inline caching. The garbage collector is a generational incremental collector (a collector which does not collect all unreachable objects during a cycle, all generational garbage collectors are incremental, an incremental GC does not necessarily employ a generation scheme to decide which unreachable objects to collect or not, A generational collector divides the unreachable objects into different sets, roughly according to their age. The basic theory here is that the objects most recently created will become unreachable quickly, so the set of 'young' objects are collected at an early stage. An incremental collector may be implemented with this scheme, or another alternative method, which may decide which group of objects should be sweeped in a different manner [see Wiki](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)#Generational_GC_.28ephemeral_GC.29)).
-
-Recently, there has been a new addition to `v8` called `SparkPlug`, this is present between `Ignition` and `TurboFan`, it is also called the `Fast Compiler`.
+Using it's proprietary parser, `V8` generates an abstract syntax tree, after which `Ignition` (the `interpreter`) generates `bytecode` from this tree using the internal `v8` `bytecode` format. `Bytecode` is then compiled into machine code by `TurboFan` (the optimising compiler), which also handles the memory allocation for objects where garbage collection collects the objects which are no longer required. `TurboFan` utilises optimisation techniques such as [elision](https://www.geeksforgeeks.org/copy-elision-in-c/) (the art of omitting unnecessary objects from a copy) of expensive runtime properties, and inline caching. The garbage collector is a generational incremental collector (a collector which does not collect all unreachable objects during a cycle, all generational garbage collectors are incremental, an incremental GC does not necessarily employ a generation scheme to decide which unreachable objects to collect or not, as such it instead divides the unreachable objects into different sets (roughly according to their age). The basic theory here is that the objects most recently created will become unreachable quickly, so the set of "young" objects are collected at an early stage. An incremental collector may be implemented with this scheme, or another alternative method, which may decide which group of objects should be sweeped in a different manner [see Wiki](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)#Generational_GC_.28ephemeral_GC.29)). `SparkPlug` is a recent addition to `V8`, present between `Ignition` and `TurboFan`, also known as the `Fast Compiler`, it is designed with one thing in mind: <em>compile fast, very fast</em>. This allows us to compile whenever we want, it does this by cheating; the functions it compiles have already been compiled to `bytecode` and the `bytecode` compiler has already done most of the work with things like variable resolution, arrow-functions, desugaring destructable statements, and son on. The second tricks is that `Sparkplug` does not generate any `intermediate representation` (`IR`) like most other compilers do, instead, it compiles directly to machine code in a single linear pass over the `bytecode`. The whole compiler is actually just a switch statement, within a for loop, the lack or IR means that te compiler has limited optimisation opportunity, it also ports the whole implementation for each supported `processor` architecture.
 
 <div align="center">
 
@@ -66,7 +64,7 @@ Our next engine is `Chakra`, this is an engine developed by `Microsoft` as propr
 <details>
 <summary>Spider Monkey</summary>
 
-Yes, this is a strange name for an engine, it sounds like some sort of `spider-man` knockoff hero, but actually, it was the actually the first `JavaScript` engine, and is currently maintained by `Mozilla`.
+Yes, this is a strange name for an engine, it sounds like some sort of `spider-man` knockoff, but actually, it was the first `JavaScript` engine, and is currently maintained by `Mozilla`.
 
 <div align="center">
 
@@ -79,7 +77,7 @@ Yes, this is a strange name for an engine, it sounds like some sort of `spider-m
 <details>
 <summary>Webkit</summary>
 
-Webkit engine is developed by `Apple` and used in the `Safari` browser, as well as on all other `IOS` browsers, this includes `PlayStation` consoles from sony, and even with some `Amazon` kindles. Webkits `C++` API procides a set of classes to display web content in windows, implements browser features such as following links, manageing back-forward lists, history, and more.
+Webkit engine is developed by `Apple` and used in the `Safari` browser, as well as on all other `IOS` browsers, this includes `PlayStation` consoles from sony, and even with certain `Amazon` kindles. Webkits `C++` API provides a set of classes to display web content in windows, implements browser features such as following links, managing back-forward lists, history, and more.
 
 </details>
 
@@ -87,7 +85,7 @@ Webkit engine is developed by `Apple` and used in the `Safari` browser, as well 
 
 ## Parsing
 
-The `v8` parser also has a preparser, but in an admission from `google` the pre-parser is actually currently useless for most modern JS. Additionally, the inner functions must be re-parsed unless they are compiled in the outer function, this means that unless we wrap out functions, they are lazy loaded, unlike variables which are eager loaded, below is a code example of this.
+The `v8` parser also has a pre-parser, but in an admission from `google` the pre-parser is actually currently useless for most modern JS. Additionally, the inner functions must be re-parsed unless they are compiled in the outer function, this means that unless we wrap our functions, they are lazy loaded, unlike variables which are eager loaded, below is a code example of this.
 
 <pre>
 <code>
@@ -130,14 +128,14 @@ sum(1, 2, 3);
 </code>
 </pre>
 
-The advantage of eager compilation is that we can drop the `3.x` cost to 2 for all top-level functions known to be executed immediately. It only matters from the top-level though. If we don't decide to eagerly parse as part of the main compile job
-we may as well wait until it is executed, since then at least we are certain that we only pay the compile cost (2 for parse, 2 for compile) for functions we actually use. This applies to the above example where we have an accumulator function declared within our function, since the top-level is the only part which matters in this circumstance we eager-load the top-level function, however, the inner accumulator will still only be loaded as and when it is used.
+The advantage of eager compilation is that we can drop the `3.x` cost to `2` for all top-level functions known to be executed immediately. It only matters from the top-level though. If we don't decide to eagerly parse as part of the main compile job
+we may as well wait until it is executed, since then at least we are certain that we only pay the compile cost (`2` for parse, `2` for compile) for functions we actually use. This applies to the above example where we have an `accumulator` function declared within our function, since the top-level is the only part which matters in this circumstance we eager-load the top-level function, however, the inner `accumulator` will still only be loaded as and when it is used.
 
-The downside of this? eager compilation requires us to keep the AST around in memory between the parse and compilations steps. This increases peak memory usage significantly, if we could pre-parse inner functions of eagerly parsed functions this would properly work out better. On low-memory devices, it would be better to disable eager heuristics entirely. Theoretically the data could be serialized on a warm startup, this way we never need to look at unused code, this would make top-level compilation heuristics irrelevant.
+The downside of this? eager compilation requires us to keep the AST around in memory between the parse and compilation steps. This increases peak memory usage significantly, if we could pre-parse inner functions of eagerly parsed functions this would probably work out better. On low-memory devices, it would be better to disable eager heuristics entirely. Theoretically the data could be serialized on a warm startup, this way we never need to look at unused code, this would make top-level compilation heuristics irrelevant.
 
 ## Interpreter
 
-As asserted earlier, `Ignition` is the interpreter used for `V8`, as such, we will focus our discussion here particularly on `Ignition`. `Ignition` is another type of engine, this is what we would call a `Register Machine`. In terms of mathematical logic and theoretical computer science a register machine is generic classification of machine used in a manner similar to a `turing machine`. As a quick overview, once the `register machine` is created it creates a virtual bytecode which is abstracted away from any particular machine implementation, this will run through the `optimisers`, eventually this runs through the `compiler`, which produces the machine specific code for our particular processor. It is possible to view this code in any given script using the `node` flag `--print-bytecode`, additionally we may provide a `filter` flag with this to condense down our output to only display the `Machine Code` to our particular code.
+As asserted earlier, `Ignition` is the interpreter used for `V8`, as such, we will focus our discussion here particularly on `Ignition`. `Ignition` is another type of engine; what we would refer to as a `Register Machine`. In terms of mathematical logic and theoretical computer science a register machine is a generic classification of machine used in a manner similar to a `turing machine`. As a quick overview, once the `register machine` is created it creates a virtual `bytecode` which is abstracted away from any particular machine implementation, this will run through the `optimisers`. Eventually this runs through the `compiler`, which produces the machine specific code for our particular processor. It is possible to view this code in any given script using the `node` flag `--print-bytecode`, additionally we may provide a `filter` flag with this to condense down our output to only display the `Machine Code` to our particular function.
 
 <pre>
 <code>
@@ -145,7 +143,7 @@ node --print-bytecode --print-bytecode-filter=[functionName] [filename]
 </code>
 </pre>
 
-Remember, when we compile to `Machine Code` there can be a lot generated, for very little, it is also incredibly difficult for humans to understand if you have not been exposed to it before, to illustrate this point I have created a script with a function `return5`. This function is incredibly simplistic, but if we output the `bytecode` we get:
+Remember, when we compile to `Machine Code` there can be a lot of `bytecode` generated. It is also often difficult to understand if you have not been exposed to it before, to illustrate this point I have created a script with a function `return5`. This function is incredibly simplistic, but if we output the `bytecode` we get:
 
 <br />
 
@@ -161,14 +159,14 @@ Code            |  Bytecode
 
 <br />
 
-Taking a look at the bytecode we see that on the second line down we have the name of the function, followed by the pointer to the function. It also has a count of parameters, registers, nesting level, age, and a frame size. Then we see `LdaSmi 5` followed by a `return`. This is an interesting section, we can see that the return
-outright matches to our JS, this means we already know instantly that this is the
+Taking a look at the `bytecode` we see that on the second line down we have the name of the function, followed by the pointer to the function. We also see a count of parameters, registers, nesting level, age, and a frame size. We then move down to our first command (`LdaSmi 5`) followed by a `return`. This is an interesting section, we can see that the return
+outright matches to our JS, this means we already know, instantly, that this is the
 return of our function. As for the more interesting `LdaSmi`, this is actually a
-command, `Ld` stands for `load`, `a` stands for `accumulator`, `Smi` stands for `Small integer`, if we put all this together, what this is saying; "<em>load into the accumulator a small integer of the value 5</em>". This is a piece of `Assembly`, meaning it is in a human readable form, if we lookg ch is an interesting sectionto the left of this, we see `0d 05`, this is a piece of hexadecimal, `0c` being our instruction code `05` being the number value, if we change this to `return7` this number will change accordingly (give it a try!).
+command; `Ld` standing for `load`, `a` for `accumulator`, `Smi` : `Small integer`. Putting all this together, the command can be interpreted as; "<em>load into the accumulator a small integer of the value 5</em>". This is a piece of `Assembly`, meaning it is in a human readable form, if we traverse a little further to the left, we see `0d 05`, a piece of hexadecimal, `0c` being our instruction code `05` being the number value. Should we change this to `return7` this number will change accordingly (give it a try!).
 
 ### The Accumulator
 
-The accumulator is ancient in terms of computing technology. it is a register in which the intermediate arithmetic logic unit results are stored. It has similarities to the `Turing Machine` and is also a part of the `Von Neumann Architecture` pictured here:
+The accumulator is ancient in terms of computing technology. it is a register in which the intermediate arithmetic logic unit results are stored and bares resemblance to the original `Turing Machine`. It is also a part of the `Von Neumann Architecture` pictured here:
 
 <div align="center">
 
@@ -176,9 +174,9 @@ The accumulator is ancient in terms of computing technology. it is a register in
 
 </div>
 
-The accumulator is essentially the "thing" close the `CPU` in memory, it has fast access, much faster than main memory, anytime we want to conduct arithmetic via the `APU`, the results are stored by the accumulator. As stated, this is far faster to access than main memory, allowing us to conduct rapid calculations. Hence, `LdaSmi[5]` loading the value into the accumulator, specifying the value type as a `small integer` a `small integer` being an integer of roughly half the bytes of a normal `integer`, normal `integers` usually being around `4 bytes` this makes `small integers` commonly `2 bytes`.
+The accumulator is essentially a store close the `CPU` in memory, it has fast access, much faster than main memory, anytime we want to conduct arithmetic via the `APU` the results are stored by the accumulator. As stated, this is far faster to access than main memory, allowing us to conduct rapid calculations. Hence, `LdaSmi[5]` loads the value into the accumulator, specifyies the value type as a `small integer` (a `small integer` being an integer of roughly half the bytes of a normal `integer`, with normal `integers` usually being around `4 bytes` this makes `small integers` commonly `2 bytes`).
 
-If we consider the next statement, `Return`, we know what a `return` usually does, it ceases execution of a function and returns the value to the right in terms of JS code execution, but what does it do in the context of the `accumulator`? as you may have guessed from the fact we are talking about the `accumulator`, in this context `Return` returns the `value` which is currently stored within the `accumulator` itself. Because we `load` the integer `5`, the return value will be `5`. If we simulate the `accumulator`, the first thing which happens is we enter the function, at this point in time the `accumulator` is blank. The first instruction executed is our `LdaSmi` instruction, this `loads` our value into the accumulator, at this point the accumulator now has value, next we `Return` the value in the accumulator and `end` the below table shows the accumulator value changes.
+If we consider the next statement, `Return`, we know what a `return` usually does, it ceases execution of a function and returns the value to the right in terms of JS code execution. But, what does it do in the context of the `accumulator`? as you may have guessed from the fact we are talking about the `accumulator`, in this context `Return` returns the `value` which is currently stored within the `accumulator` itself, since we `load` the integer `5`, the return value will be `5`. If we simulate the `accumulator`, the first thing which happens is we enter the function, at this point in time the `accumulator` is blank. The first instruction executed is our `LdaSmi` instruction. This `loads` our value into the accumulator, at which point the accumulator now has value. Next we `Return` the value in the accumulator and `end` the below table shows the accumulator value changes.
 
 <br />
 
@@ -195,8 +193,8 @@ If we consider the next statement, `Return`, we know what a `return` usually doe
 
 <br />
 
-Just to really cement this in your mind, we can also simulate this using `JavaScript` itself, it is often a pattern used. Go ahead and run the script provided in `scripts/accumulator`, logging to `bytecode` to the console. Take a
-look at the `bytecode`, notice that this is doing exactly the same as the function previously. Notice, the interaction within the `accumulator` as to how the value changes, and understand that this is what occurs inside of your `APU` when the processor runs this `Machine code`.
+Just to really cement this in your mind, we can also simulate this using `JavaScript` itself, it is often a pattern used in loops. Go ahead and run the script provided in `scripts/accumulator`, logging to `bytecode` to the console. Take a
+look at the `bytecode`, notice that this is doing exactly the same as the function previously. Note the interaction within the `accumulator` as to how the value changes and understand that this is what occurs inside of your `APU` when the processor runs this.
 
 
 <pre>
@@ -230,7 +228,7 @@ Code            |  Bytecode
 
 <br />
 
-From our `bytecode` we can see the same command `LdaSmi` as we previously saw. From this we now know that we are loading a value of the type small integer into the `accumulator`. The next line down from this however, we see a new command `Star0`. Since we are talking about registers you can probably guess the `r` stands for `register`, `St` stands for `store` and, as before, `a` stands for accumulator. If we put this together we are saying "<em>Store the value in the accumulator at register 0</em>". Notice, we also have the `register count` which is no set to `1`.
+From our `bytecode` we can see the same command as before (`LdaSmi`). From this we now know that we are loading a value of the type small integer into the `accumulator`. The next line down from this however, we see a new command `Star0`. Since we are talking about registers you can probably deduce that the `r` stands for `register`, `St` stands for `store` and, as before, `a` stands for accumulator. If we put this together we are saying "<em>Store the value in the accumulator at register 0</em>". Notice, we also have the `register count` which is now set to `1`.
 
 Next we see `AddSmi [5]`, the `Add` part is a mathematical operation, here we are saying to `add` the value provided to whatever `value` is stored in the `accumulator`, in this case `10`. Every identifier/declaration you make in `JavaScript` will have a representation mapped to a virtual register for it. In this case we assign `10` to `x`, this means that `x` will be mapped to virtual register `r0`. This may seem quite inefficient, we are assigning a value to `r0` but we don't actually do anything with it. This is where `compilation` and `optimisation` phases come in after we compile down to the virtual `bytecode`.
 
@@ -247,7 +245,7 @@ Next we see `AddSmi [5]`, the `Add` part is a mathematical operation, here we ar
 
 </div>
 
-If you want an adequate JS representation of this behaviour, like we did previously, take a look at the following code:
+If you want an adequate JS representation of this behaviour, as we did previously, take a look at the following code:
 
 <pre>
 <code>
@@ -265,7 +263,7 @@ function add5() {
 </code>
 </pre>
 
-Try out some different functions, check the `bytecode` for them, what happens if instead of setting a variable we simply return the result of the calculation for instance? to answer this question in particular you should write a simple function where to numbers are added, you will notice i the bytecode we only get one command run `LdaSmi`. This is because the `interpreter` is optimising our code, it knows we are taking two numbers and adding them together, so rather than waste the operation it just sets the result to the `accumulator`.
+Try out some different functions, check the `bytecode` for them, what happens if instead of setting a variable we simply return the result of the calculation for instance? to answer this question in particular you should write a simple function where to numbers are added, you will notice in the bytecode we only get one command run `LdaSmi`. This is because the `interpreter` is optimising our code, it knows we are taking two numbers and adding them together, so rather than waste the operation it just sets the result to the `accumulator`.
 
 Lets get a little more complex, how about adding two numbers.
 
@@ -287,7 +285,7 @@ virtual register. If we trace this through we first find that we have our `LdaSm
 `10` into the `accumulator`. The next line down we `store` the value currently in the `accumulator`, currently `10`,
 into `r0`.  We then load our second value (`5`) into the `accumulator`, this replaces the `accumulator` value.
 Next `Star1` runs, this looks familiar, we can deduce that this command is storing the current accumulator value
-again, but, notice it is going to `r1` rather than `r0`. In the next step we see another new command `Ldar` we
+again, but notice, it is going to `r1` rather than `r0`. In the next step we see another new command `Ldar` we
 know that `Ld` will load a value, we also know that `a` is the `accumulator` and `r` is `register`, thus;
 "<em>Load the current register1 value back into the accumulator</em>". After this we run the `Add` command on `r0`, which, as
 discussed previously, will add the value, this time in `r0`. Finally, we `return` the `accumulator` value.
