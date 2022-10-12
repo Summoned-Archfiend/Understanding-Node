@@ -148,4 +148,16 @@ lexicalEnvironment = {
 </code>
 </pre>
 
-A new `Lexical Environment` is created for each `Lexical Scope` but only when the code in the `scope` is executed, you may notice these are exactly the same concepts we have already been discussing simply under a different name. This is because the `GEC` itself is our `Global lexical Environment`, just as other `Lexical Environments` are created at each function call AKA our `FEC`.
+A new `Lexical Environment` is created for each `Lexical Scope` but only when the code in the `scope` is executed, you may notice these are exactly the same concepts we have already been discussing simply under a different name. This is because the `GEC` itself is our `Global lexical Environment`, just as other `Lexical Environments` are created at each function call AKA our `FEC`. That overview took longer than expected! right, now lets step back a second and think about how `Node` executes our code.
+
+## Node Execution Overview
+
+What is the first thing that occurs when we run a `Node` application? well.., first of all the user would have to access our application, in the context of `Web Applications` this would mean the user would enter our `URI` into the browser, but what happens after this? well... a request is sent from the `client` to the `server`? correct! we know from the previous chapters that this is a case typical of our `client-server model`but, what happens after that? does it arrive directly in `Node`? begin executing our code? not quite, the inbound message would arrive on the `server` network card. Now, as we discussed previously, we cannot access this in JS as it is at the OS level, so what can we do? we cannot write JS to directly interact with internal features such as network cards, instead, we have to interface with `C++` to do this. We do this via our `labels` in JS which we looked at in the `V8` engine earlier, these map to real-term `C++` functions, this will grab our message from our request and pass it up to JS. It is important to note that even `C++` itself wont interact with these features directly, it will interface with them via the abstraction layers of the OS. In order to understand this, it is best we first explore `JavaScript` itself and ensure we understand it's execution of code very intimately.
+
+<br />
+
+___
+
+<div align="right">
+
+[<< prev](./4_engines.md) | [next >>](./6_jsexecution.md)
