@@ -51,3 +51,10 @@ As a little break from the technicalities this is a good time to discuss the `ph
 ## A Return to Theory
 
 Returning from our slight detour we must posture yet another query, what does it mean to `evaluate` something? in real-world terms an `evaluation` is the process of judging the quality of an item or service. This is not what we mean in computing, when we say something `evaluates` it essentially becomes the value, for instance, in the case of our diagram we have a line through `multiplyBy2` with a `6` above it, indicating it has `evaluated` to the value `6`, this is what will be assigned to our output, we are not assigning the function, but what the function `evaluates` to. Now, understand we can too assign functions to variables in JS, but in this case the parenthesese tell JS to run the function. Whenever we add parenthesese in JS the function will run, this is similarly how `Node` runs our callbacks which we will look into more in further in later chapters. Finally, our `parameter` in the `GEC` now has it's `argument` value. But wait, what is this in the bottom left? oh, the call stack! yes, the moment our function is done executing it is `popped` from the top of the stack, since there is nothing else within our stack we return to the `GEC`. If we had a function within a function you would expect that the outer function would still be on the stack, in such a case we would pop our current function off of the stack at the end of it's execution, this would then lead to the outer `FEC` being top of the stack, which would then continue it's own execution, at the end of which that also would be `popped`, in the end we return to the `GEC`. This is out `Scope Chain`, how JS is able to hoist variables throughout contexts as we demonstrated in the previous chapter.
+
+___
+
+<div align="right">
+
+[<< prev](./5_parsing.md)
+<!-- | [next >>](./) -->
