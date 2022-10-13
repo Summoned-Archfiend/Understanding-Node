@@ -465,6 +465,7 @@ and how we are able to run our extended `C++` functions in the browser, and on o
 to gain additional functionalities not available in JS.
 
 <br />
+
 ___
 
 <div style="font-size: 12px">
@@ -484,9 +485,6 @@ Von Neumann Architecture <br /> [click here](https://www.sciencedirect.com/topic
 </div>
 
 </div>
-
-<br />
-
 ___
 
 <div align="right">
