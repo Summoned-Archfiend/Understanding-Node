@@ -58,6 +58,8 @@ This exact cycle continues for each element of the array, try to trace this thro
 
 Take your time to study and really understand this diagram. For ease this has been condensed into a single diagram, but recall,in reality we are running through the array items one at a time, we are also opening and closing one execution context per `function` call/return. The main takeaway here is how JS is spinning up execution contexts with local memory which dies with the context, that we can have execution contexts within execution contexts, and that the `call stack` has items added to it when a function is called, and popped from it when execution completes. Finally, recall that higher order functions are a function which may receive or return another function, as is such they naturally have nested execution contexts, enabling us to define functionality when the function is called rather than at the very moment we write the function. In the next chapter we will discuss `callbacks` in detail, analysing how JS `engine` runs and utilises callbacks in the same manner we have here.
 
+<br />
+
 ___
 
 <div align="right">
