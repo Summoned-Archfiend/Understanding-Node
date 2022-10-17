@@ -14,6 +14,7 @@ ___
 4. [JavaScript Engines](./chapters/4_engines.md)
 5. [Parsing](./chapters/5_parsing.md)
 6. [JavaScript Execution](./chapters/6_jsexecution.md)
+7. [Higher Order Functions](./chapters/7_higherOrderFunctions.md)
 <!--
 6. [Abstract Syntax Trees]()
 7. [Von Neumann Architecture]()
