@@ -65,3 +65,5 @@ Take your time to study and really understand this diagram. For ease this has be
 <div align="right">
 
 [<< prev](./6_jsexecution.md) | [next >>](./8_callbacks.md)
+
+</div>

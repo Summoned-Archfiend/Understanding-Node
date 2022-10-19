@@ -73,4 +73,59 @@ outer();
 
 <br />
 
-Notice here we call the function `incrementCounter` within the same function call as it was defined. Notice how our `counter` variable is out of scope when used in our function, it would not be defined here, yet from what we already learned about the `scope chain` we should already be aware that JS can indeed access this variable within the outer context. Our first line here we define our `outer` function, this will set the entirety of our function on a `parameter` of `outer` in the `GEC`.
+Notice here we call the function `incrementCounter` within the same function call as it was defined. Notice how our `counter` variable is out of scope when used in our function, it would not be defined here, yet from what we already learned about the `scope chain` we should already be aware that JS can indeed access this variable within the outer context. Within our first line here we define our `outer` function, this will set the entirety of our function on a `parameter` of `outer` in the `GEC`. We do nothing else at this point, simply move on to the next line where we invoke our `outer` function immediately, as we are well aware by now this will create a new `FEC` and add our `function` call onto the `call stack`. We will pay much more attention to the `call stack` here as it becomes more interesting now that we are calling functions within functions. If you have ever worked with `React` this will be familiar as a `component` is simply a function in which we often define and return other functions. At this point our `call stack` is as such:
+
+<br />
+
+<div align="center">
+
+<img src="../images/callStack1.png">
+
+</div>
+
+<br />
+
+
+We have no `parameters` or `arguments` passed in therefore we simply begin atop of our first line within the `outer` function definition. On our first line we create a `variable`, we store this on the `parameter` label `counter` in `local memory` and assign the `argument` value of `0`, simple enough, next line. We then define our inner function `incrementCounter`, again, setting a label `incrementCounter` with the value of a reference to the function code, this time in the `local memory` of the `outer` function. We then `invoke` our `incrementCounter` function, at this point we need to again take a look at our updated `call stack`:
+
+<br />
+
+<div align="center">
+
+<img src="../images/callStack2.png">
+
+</div>
+
+<br />
+
+As we can see the `incrementCounter` is added to our `call stack` above the `outer` function. We have yet to `return` from either therefore nothing has been removed from the `call stack` at this point. If you want to visualise the stack imagine a stack of papers, or books, in order to take something from the stack you must do so from the top of the stack, therefore, it is a `Last In First Out` data structure (`LIFO`). Within the `incrementCounter` function we do just that: increment our counter using `counter++`. JS will first look for `counter` in the `incrementCounter FEC`s local memory, however, it will not find `counter`, henceforth, the engine will move up the `scope chain` into our `outer` `FEC`s local memory, here it WILL find our `counter` label within the `outer FEC` local memory and increments the value to `1`. Since we have no returns no values are returned from our functions, instead, the function is terminated by an implicit return which results in our `FEC` being destroyed. Our `call stack` therefore pops our first item returning to the `outer` context, since there is again no returned value we simply end with another implicity return popping our `outer` function from the stack, meaning our final `call stack` transformation appears as such:
+
+<br />
+
+<div align="center">
+
+<img src="../images/callStackFinal.png">
+
+</div>
+
+<br />
+
+This is a good time to pause and discuss why we have access to the `counter` in more detail. With the above demonstration we know we can retain function memory, but what exactly is causing this persistence? we know JS is not finding the variable inside of our function, but within the outer function, but is it doing so via the `call stack`? or is it the act of saving our `function code` to our outer local memory itself that gives us access? what would happen if instead we created our function, saved it to a variable, and then ran it? in this case we wouldn't find our variable in local storage, nor would we find it in global memory, yet, we would still be able to increment the counter successfully, how? When we return a function out in JS we get more than just the `function code`, we get a small `backpack` of memory, this `backpack` contains the surrounding data that we are using. This `backpack` is checked prior to our lookup in global memory, and in here we do indeed find our `counter`, this is attached to our function definition and wont be lost when our `FEC` is destroyed. Now we are left with another question, how does JS grab onto this data? how does it know what data to attach to the function? as soon as we declare `incrementCounter` we are savnig into the computers memory of functions and data a `label` and the function code. If we were to log this function we would see the function definition, this definition immediately gets a hidden property (hidden properties look like this: `[scope]` in JS definitions) the `scope` definition points to the location in which our surrounding data is stored, this means that we can access this location from our function via the hidden `scope` property which, as mentioned prior, is checked before we head out to the `GEC`. It is worth noting that the only way we can access this property is via the running of the function it is attached to.
+
+<br />
+
+<div align="center">
+
+<img src="../images/backpackClosureQuestion.png">
+
+</div>
+
+<br />
+
+---
+
+<div align="right">
+
+[<< prev](./6_jsexecution.md) | [next >>](./)
+
+</div>
