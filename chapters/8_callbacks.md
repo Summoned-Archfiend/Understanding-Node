@@ -136,6 +136,6 @@ Let us take a look at another example, in the following example we will have a f
 
 <div align="right">
 
-[<< prev](./6_jsexecution.md) | [next >>](./)
+[<< prev](./6_jsexecution.md) | [next >>](./9_backpacks.md)
 
 </div>

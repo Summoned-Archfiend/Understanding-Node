@@ -83,7 +83,7 @@ Our next line invokes `myNewFunction`. As we just discussed, this is now referen
 
 <br />
 
-Inside of this `FEC` we have but one line of code to execute. Whilst your eyes may trace back up the code to the `incrementCounter` to find the code we are about to run recall that the JS engine is not doing this, it is simply accessing our label in memory of which we already have our code saved as an `argument`. Hence, we run inside our `FEC`: `counter++;`, JS will therefore look at the label `counter` and attempt to find a value for it. The first place the JS engine will check is within the `local memory` of the current `FEC`. In this case the `counter` label does not exist within the `local memory` of our `FEC` so our lookup fails. If we check our `call stack` we would expect JS to check the `GVE` next as that is the next context down our stack, however, we know it does not exist here either. So, how does JS deal with this? how could it be that we are able to define and invoke a function which has access to a variable that we apparently do not have access to? all is not quite what it seems. What we are missing from this puzzle is the intermediary step JS takes prior to checking our `GVE`. This is our `backpack`, within which all surrounding data needed to run the function are exported with the function itself as part of the function definition.
+Inside of this `FEC` we have but one line of code to execute. Whilst your eyes may trace back up the code to the `incrementCounter` to find the code we are about to run recall that the JS engine is not doing this, it is simply accessing our label in memory of which we already have our code saved as an `argument`. Hence, we run inside our `FEC`: `counter++;`, JS will therefore look at the label `counter` and attempt to find a value for it. The first place the JS engine will check is within the `local memory` of the current `FEC`. In this case the `counter` label does not exist within the `local memory` of our `FEC` so our lookup fails. If we check our `call stack` we would expect JS to check the `GVE` next as that is the next context down our stack, however, we know it does not exist here either. So, how does JS deal with this? how could it be that we are able to define and invoke a function which has access to a variable that we apparently do not have access to? all is not quite what it seems. What we are missing from this puzzle is the intermediary step JS takes prior to checking our `GVE`. This is our `backpack`, within which all surrounding data needed to run the function are exported with the function itself as part of the function definition. In the below diagram the cross shows that this is our previously destroyed `execution context`, we are not resurrecting the `FEC` here, nor are we fetching data from the `local memory` of this previously run `FEC`, this is simply to demonstrate where the data originally came from. When we returned our `incrementCounter` function from this `FEC` we received our data pack as part of it's definition, it has sat on that definition ever since, within our `GVE`, we can only access this when we run the function code itself. Consequently when JS performs our lookup for the counter label, it doesn't find it in `local memory` of our `myNewFunction FEC` but it DOES find it within the function definition sitting within out `GVE`.
 
 <br />
 
@@ -94,3 +94,47 @@ Inside of this `FEC` we have but one line of code to execute. Whilst your eyes m
 </div>
 
 <br />
+
+So, back on track. JS checks our function definition (or "`backpack`"), what does it find? it finds our `counter` with value `0`, in which case it runs our `increment` on `counter` incrementing it's value by `1` after which our function implicitly returns, exiting our `FEC` and popping our `myNewFunction` call from the `call stack`.
+
+<br />
+
+<div align="center">
+
+<img src="../images/counterIncremented.png">
+
+</div>
+
+<br />
+
+So now we are back in the `GEC` where we have a second call to the function `myNewFunction`. Just as before this results in `myNewFunction` being pushed unto the `call stack` and a brand new `FEC` is created. Within our `GEC` we run the line `counter++;`. JS looks up our `counter` label in `local memory`, it is unable to find it, it checks the function definition `backpack` in the `GVE` and increments it's value by `1`. Take a moment to recognise the significance of this, we have gone from having functions that only have a local memory of which is destroyed upon exiting the function, losing all data stored within it other than that which we return out, to having a persistent memory across multiple function calls. Yet once again we are missing a piece of the puzzle here, how does JS grab this data and return it out with the function definition? It does this the moment we declare `incrementCounter`, at this moment we are literally saving in the computers memory (in the store of functions and data) a label with the entirety of our code of this function. Should we log this function to the console, we would see the whole code of it along with the definition data via a hidden property. This is the `[scope]` property which links to the location where all the surrounding data the function utilises is stored. This `backpack` of data is stored permanently, unless we overwrite the function definition itself it is not going to be deleted or removed unlike our function execution contexts, the caveat here is that this data is not accessible by any means other than the function call itself, you may think this a weakness, but think about it for a moment. JS does not support private values, unlike languages such as `C++` or `Java` where we have the private and public keywords for access control, but... using this `backpack` we can somewhat emulate this behaviour, this backpacks data is private, only accessible from within the function, hence, we now have a means of privatising functions and variables to within a private scope.
+
+<br />
+
+<div align="center">
+
+<img src="../images/backpackIncrement2.png">
+
+</div>
+
+<br />
+
+Lets finish our example. We know at this point we have completed our function execution, it follows that our execution context will be destroyed, the function popped from the `call stack` and we will return to our `GEC` at which point there is no more code to run and we end with our context state as follows:
+
+<br />
+
+<div align="center">
+
+<img src="../images/endState.png">
+
+</div>
+
+<br />
+
+---
+
+<div align="right">
+
+[<< prev](./6_jsexecution.md) | [next >>](./)
+
+</div>
