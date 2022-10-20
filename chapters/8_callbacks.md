@@ -122,6 +122,16 @@ This is a good time to pause and discuss why we have access to the `counter` in 
 
 <br />
 
+Let us take a look at another example, in the following example we will have a function within a function once again, we will return one function from another, set the function to a variable, and call it in order to demonstrate the `backpack` which is exported on the function definition. Notice how the example is very much the same as our previous example, with a few key differences. We are returning our `incrementCounter` function from within our `outer` function, meaning we will have a reference exported to the `GEC`, we are then also setting this as an `argument` to a `paramter` of `myNewFunction`. Lets start again from the top, after all:
+
+<br />
+
+<blockquote>
+"<em>Repetition is the mother of learning, the father of action, which makes it the architect of accomplishment." - Zig Ziglar</em>
+</blockquote>
+
+<br />
+
 ---
 
 <div align="right">
