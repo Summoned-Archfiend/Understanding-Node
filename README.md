@@ -17,6 +17,8 @@ ___
 7. [Higher Order Functions](./chapters/7_higherOrderFunctions.md)
 8. [Callbacks & Closures](./chapters/8_callbacks.md)
 9. [Function Backpacks](./chapters/9_backpacks.md)
+10. [Synchronicity](./chapters/10_synchronicity.md)
+11. [Interface (Browser & Engine)](./chapters/11_web_api_interface.md)
 <!--
 6. [Abstract Syntax Trees]()
 7. [Von Neumann Architecture]()
