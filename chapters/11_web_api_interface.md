@@ -56,3 +56,6 @@ This is an important distinction thus we will repeat it again in different terms
 
 <br />
 
+Notice how the web browser is effectively directly affecting the `stack` at a later point in time. what happens if we are running a function on the `call stack` at the point the callback returns to JS execution? what if we had a `timer` of `0ms` rather than `1000ms`? what if we have a massive list of functions running in the `call stack`? when would this `callback` be allowed to execute? these are all questions which must be raised in order to define the rules for interacting with this whole other context of the `browser`. First we must clarify, when we show the `sayHello` function in our `browser` it is not the JS function being copied. Much like how we showed in previous examples that our functions were saved between the `GVE` and `local memory` this is a representation, a reference to our function in memory, a pointer to the location of where the original implementation is saved in memory where the `backpack` of any surrounding data associated to our function will also be located as a part of the function definition.
+
+In order to make our code predictable so that we may work with these browser features with the confidence that our code will behave as we expect, we must have very strict rules for working with these external features outside of JS. 
