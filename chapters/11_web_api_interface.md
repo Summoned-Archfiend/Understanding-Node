@@ -2,6 +2,8 @@
 
 As we discussed in the previous chapter JS has far more to it than just our JS code. The browser adds a lot of functionality to JS that would otherwise not be possible. Here we are going to explore the JS `engine` further, we will see how JS interacts with the browser, and how the MDN API performs. If you would like to look at the `Web API`s in more detail you can check out the information at [MDN](https://developer.mozilla.org/en-US/docs/Web/API).
 
+<br />
+
 <pre>
 <code>
 const sayHello = () => {
@@ -13,6 +15,8 @@ setTimeout(sayHello, 1000);
 console.log("Me First!");
 </code>
 </pre>
+
+<br />
 
 The above code snippet is nothing more than we have seen prior, however, there are a few new things to discuss. Notice how in this example we are using the `ES6` function syntax. It is important to note that, at this point, there is no difference between this and the syntax we have already been using, at least in the context of the above function. `ES6` is the more commonly used syntax, we will cover the differences in the execution as they appear later on, at this point you should simply familiarise yourself with the syntax and understand that it is doing exactly the same as the `function` keyword; assigning a `label` in memory to hold our `function` code, note that at this point we have only declared the `function`, we have yet to run it.
 
@@ -64,6 +68,8 @@ In order to make our code predictable so that we may work with these browser fea
 
 To answer the previous questions we are going to take a look at another example. In this example we are going to purposefully block our thread of execution from completing. In JS we cannot run one long process, thus, we must run many smaller processes in order to block the thread of execution. We can check the timing of our function by using `performance`, this is a `browser` feature which provides access to performance related information. This can be incredibly useful for optimisation of algorithms, timing your functions, and attaining access to various metrics. In our analysis code we will omit the details of our `blockThread` function for clarity, this function could be any kind of high cost process, but if you want a concrete example of how we might simulate a blocking process here is a quick example.
 
+<br />
+
 <pre>
 function blockThread () {
     let x = 999992;
@@ -81,7 +87,11 @@ console.log(
 );
 </pre>
 
+<br />
+
 Just know that when we use blockThread in our code, we will not necessarily be referring to this exact code as we have already said, it could be ANY blocking process which blocks for `x` amount of time. The code we will be analysing will simply utilise the `setTimeout` to set a callback to run at `0ms`, we will then block the thread and log the string `Me First` right after, this will demonstrate one of the fundamental rules which our `callbacks` must follow known as the `order of execution`.
+
+<br />
 
 <pre>
 function sayHello () { console.log('Hello'); }
@@ -93,6 +103,8 @@ blockFor1Sec();
 
 console.log("Me first!");
 </pre>
+
+<br />
 
 We begin by defining the `sayHello` function, setting the code to the label `sayHello` in the `Global Variable Environment`. We then also define a function `blockFor1Sec`. Our first line of interest is our `setTimeout` function, we know that this function will trigger in the `web browser` the switching on of a `timer`, passing it the `duration`. Our timer is set up at approximately `0ms`, with a duration set of `0ms`, and an `onCompletion` pointing to a reference of our `sayHello` code in memory, this function will run once our `timer` is marked as `complete`. Our first check runs on our `timer`, at `0ms` is our `timer` complete? yes, it is, so it is time to add our `sayHello` function to our `call stack` correct? not quite! the thing is we are still missing a fundamental part of our JS knowledge. In the JS event loop we also have the `callback queue`, Since this function is a `callback` it joins this particular queue to be run once all other execution has completed. Thus, here is the first of our very strict rules that apply when we interact with our `browser` features. Whenever we add an item to the `callback queue` it must sit there and wait until the `callback queue`, the `Event Loop` will continuously check the main stack to see if it has any frames to execute, once there are no more frames to execute in the main stack it will then check our `callback queue` if the `callback queue` has items to execute it pops the message from the `callback queue` into the main `call stack` for execution. Only at this point, when all other code in our `thread of execution` has completed that the items in our `callback queue` will be processed. Any kind of `asynchronous` process in JS will be added to the `callback queue`, this is important to note as mixing `synchronous` and `asynchronous` code can lead to unintended consequences and be difficult to trace.
 
@@ -128,9 +140,13 @@ Finally, at `1002ms` the event loop will check our `main stack`, see that there 
 
 And so, to complete our mental model, we end our execution having logged "`Hello`" to our `console`, `sayHello` is popped from the `call stack` and the `FEC` is destroyed and as is such our execution is complete.
 
+<br />
+
 <div align="center">
     <img src="../images/callbackEndOfExecution.png">
 </div>
+
+<br />
 
 To review, what we have learned. We are looking for a rule, by which JS must abide when it interacts with `asynchronous` code. This rule comes in to parts, in order for our `callback` to be run:
 
