@@ -60,7 +60,7 @@ Notice how the web browser is effectively directly affecting the `stack` at a la
 
 In order to make our code predictable so that we may work with these browser features with the confidence that our code will behave as we expect, we must have very strict rules for working with these external features outside of JS.
 
-## JS Rules
+## Event Loop and Callback Queue
 
 To answer the previous questions we are going to take a look at another example. In this example we are going to purposefully block our thread of execution from completing. In JS we cannot run one long process, thus, we must run many smaller processes in order to block the thread of execution. We can check the timing of our function by using `performance`, this is a `browser` feature which provides access to performance related information. This can be incredibly useful for optimisation of algorithms, timing your functions, and attaining access to various metrics. In our analysis code we will omit the details of our `blockThread` function for clarity, this function could be any kind of high cost process, but if you want a concrete example of how we might simulate a blocking process here is a quick example.
 
