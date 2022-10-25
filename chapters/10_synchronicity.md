@@ -30,6 +30,6 @@ The biggest takeaway here is 1. the similarity of `vanilla` JS in your browser t
 
 <div align="right">
 
-[<< prev](./9_backpacks.mdd) | [next >>](./11_web_api_interface.md)
+[<< prev](./9_backpacks.md) | [next >>](./11_web_api_interface.md)
 
 </div>
