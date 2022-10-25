@@ -135,6 +135,6 @@ Lets finish our example. We know at this point we have completed our function ex
 
 <div align="right">
 
-[<< prev](./6_jsexecution.md) | [next >>](./)
+[<< prev](./8_callbacks.md) | [next >>](./10_synchronicity.md)
 
 </div>
