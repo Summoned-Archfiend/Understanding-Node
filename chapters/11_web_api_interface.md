@@ -173,7 +173,17 @@ if (callStackIEmpty && gecExecutionIsComplete) {
 
 <br />
 
-This check is performed on every line of code, prior to running the code, should there be anything on the `call stack` the item atop of the `call stack` will be popped off and executed, if there is no item on the `call stack` but there are items left to run within the `GEC` the execution of the `GEC` will continue. Once all of this is complete the `callback queue` will be checked, if there are any items on the `callback queue` the item at the end of the `queue` will be popped from the `callback queue` and pushed onto the `call stack`, these will be completed in order, however, not necessarily consecutively. This IS the JS `Event Loop`, its entire job is to check this `queue` very quickly between each lines execution. This is one of the most important aspects of `JavaScript` to understand when dealing with `asynchronous` code. In face, up until `ES6` this was the entire model of `asynchronous` JS, however, `ES6` added some additional features which we will discuss in detail in the upcoming chapters.
+This check is performed on every line of code, prior to running the code, should there be anything on the `call stack` the item atop of the `call stack` will be popped off and executed, if there is no item on the `call stack` but there are items left to run within the `GEC` the execution of the `GEC` will continue. Once all of this is complete the `callback queue` will be checked, if there are any items on the `callback queue` the item at the end of the `queue` will be popped from the `callback queue` and pushed onto the `call stack`, these will be completed in order, however, not necessarily consecutively. This IS the JS `Event Loop`, its entire job is to check this `queue` very quickly between each lines execution. This is one of the most important aspects of `JavaScript` to understand when dealing with `asynchronous` code. In face, up until `ES6` this was the entire model of `asynchronous` JS, however, `ES6` added some additional features which we will discuss in detail in the upcoming chapters. Concepts like `promises` and `async await` get around an issue with this approach often referred to as `callback hell`. Whenever you are using `callbacks` and begin to see your code resemble an arrow pointing to the right you should be very nervous, and very aware, that you are entering `callback hell`. This phenomenon occurs due to the fact that when we fetch data in `callbacks` it is usually injected automatically into our arguments.This means it is only accessible within the `execution context` of the called function, potentially leading to many nested `callbacks` making our code hard to trace, reason with, and debug. `Async await` and `promises` attempt to rectify this by offering an alternative syntax which enables us to write asynchronous code in a synchronous manner.
+
+<pre>
+firstFunction(args, function() {
+  secondFunction(args, function() {
+    thirdFunction(args, function() {
+      // And so on…
+    });
+  });
+});
+</pre>
 
 <br />
 
