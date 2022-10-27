@@ -135,7 +135,9 @@ This is the standard communication model for communication on the `web`. The sta
 the standard server, our `web server` and a standard protocol for communication, usually `HTTP/HTTPS`. This is as far
 as we will go into the `server/client` communication model, just know that this is a very basic model, we of course
 also have `APIs` and various other forms of communication such as `websockets`, but this basic understanding will be
-sufficient for starting with `node`, we will get into these other concepts at as we approach them naturally. Note that if you have written any `JavaScirpt` as a frontend developer, you have already worked with the `V8` engine, things like `DOM Manipulation` are outside of the `EcmaScript` standard, this is because our browser (such as `chrome`) is a `C++` program with an embedded `V8` engine, this means it can extend the functionality of `JavaScript` which has become a standard for the web. You can see the features which are available to `JavaScript` from the browser at [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Window). We have callable `APIs` within the `browser` which allow us to interface with additional features (check out some of the MDN API features for details).
+sufficient for starting with `node`, we will get into these other concepts at as we approach them naturally. Note that if you have written any `JavaScirpt` as a frontend developer, you have already worked with the `V8` engine, things like `DOM Manipulation` are outside of the `EcmaScript` standard, this is because our browser (such as `chrome`) is a `C++` program with an embedded `V8` engine, this means it can extend the functionality of `JavaScript` which has become a standard for the web. You can see the features which are available to `JavaScript` from the browser at [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Window).<pre>
+
+</pre> We have callable `APIs` within the `browser` which allow us to interface with additional features (check out some of the MDN API features for details).
 
 <br />
 

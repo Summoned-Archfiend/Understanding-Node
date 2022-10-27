@@ -191,6 +191,6 @@ firstFunction(args, function() {
 
 <div align="right">
 
-[<< prev](./10_synchronicity.md) | [next >>](./)
+[<< prev](./10_synchronicity.md) | [next >>](./12_promises.md)
 
 </div>
