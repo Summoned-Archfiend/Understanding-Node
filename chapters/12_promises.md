@@ -37,14 +37,14 @@ Again this raises a question. If our `rejected` promise triggers both `then` and
 <br />
 
 <pre>
-const promise = Promise((res, rej) => {
+const promise = new Promise((res, rej) => {
     const x = 1;
     const y = 1;
 
     if (x === y) {
-        resolve();
+        res();
     } else {
-        reject();
+        rej();
     }
 });
 
@@ -97,12 +97,22 @@ Our second consequence occurs within the `web browser`. This is where we set up 
 
 This is already a lot considering the small amount of code we have thus far, but even now, our `web browser` still isn't done yet. Consider what ocurred inside our `browser` when we were using `callbacks`, we have set up our `network request`, but we have not yet checked for `completion` of our `callback`.  Unlike when we used the `timer` there is no definite time at which our `callback` will be pushed to the `callback queue`, instead, we are reliant on the `x` amount of time it may or may not take to retrieve data from the endpoint we provided. As such, our `network request` will first begin its work. It will henceforth send a request to our data source, when our browser performs it's first complete check at `0ms` it will however be incomplete as, althoguh we have sent the request, we are still waiting on a response from our source.
 
-When we used `callbacks` we passed in a function to run when our `onComplete` completes. However, we don't have any `function` passed into `fetch` here, so how do we know what to do on completion anyway? this is where our special `promsie `object comes back in. On completion, when our response data is received, it will instead be passed back into JS within the empty `value` property of our `promise` object. This raises a new problem, we don't know when this data will be returned, we have no inclination as to when it will be received, but when it is we need JS to automatically run some code to use the request at perform whatever task we might want to perform with it. This is where the `onFulfilled` property comes in. The `onFulfilled` property is an array, and there is a very good reason for this, this proeprty will store all our functions that we want to have automatically run when the `value` property is updated, which happens to be when our `fetch` task completes hopefully returning the data back from our source successfully. As such, we need a way to placing our `show` function within this array. This would mean that when our data is received the `show` function would automatically be run when `value` is updated with our response data. We do this by utilising our consumer function `then`, this function pushes the provided arguments to our `onFulfilled` array, we cannot do this directly as `onFulfilled` is a hidden property.
-
 <br />
 
 <div align="center">
     <img src="../images/externalRequest.png">
+</div>
+
+<br />
+
+When we used `callbacks` we passed in a function to run when our `onComplete` completes. However, we don't have any `function` passed into `fetch` here, so how do we know what to do on completion anyway? this is where our special `promsie `object comes back in. On completion, when our response data is received, it will instead be passed back into JS within the empty `value` property of our `promise` object. This raises a new problem, we don't know when this data will be returned, we have no inclination as to when it will be received, but when it is we need JS to automatically run some code to use the request at perform whatever task we might want to perform with it. This is where the `onFulfilled` property comes in. The `onFulfilled` property is an array, and there is a very good reason for this, this proeprty will store all our functions that we want to have automatically run when the `value` property is updated, which happens to be when our `fetch` task completes hopefully returning the data back from our source successfully. As such, we need a way to placing our `print` function within this array. This would mean that when our data is received the `show` function would automatically be run when `value` is updated with our response data. We do this by utilising our consumer function `then`, this function pushes the provided arguments to our `onFulfilled` array, we cannot do this directly as `onFulfilled` is a hidden property.
+
+As such we move to our next line where we call `then` we call it on our special promise object `futureData` which is currently saved in our `GVE` under this label. We pass to it our entire function definition of `print`, `then` pushes this into our `onFulfilled` array.
+
+<br />
+
+<div align="center">
+    <img src="../images/pushThen.png">
 </div>
 
 <br />
