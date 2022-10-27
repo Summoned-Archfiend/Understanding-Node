@@ -117,6 +117,10 @@ As such we move to our next line where we call `then` we call it on our special 
 
 <br />
 
+Take a moment to appreciat that all of this setup came from simply 2 lines of code. In the background we have all of our setup completed, we are awaiting a response, talking to an external source, we have a callback waiting to run, and we have our special `Object` which gives us a connection from our `browser` back to JS, remember, when our response data comes in through our `network response` the `value` of this object will update triggering all `callbacks` within our hidden `onFullfilled` property, also note that `fetch` that we have been using is merely a `label` for interacting with our `network response` feature in the `browser`, as with all these features this is actually running in another language which supports the ability to communicate accross a network as JS does not. This means we can now move on with executing out code, recall that as we do on each line our `Event Loop` will check our `complete` status.
+
+So, we move on, and thus at `1ms` of execution time we log the string "`Me First!`" to our console.
+
 ---
 
 <div align="right">
