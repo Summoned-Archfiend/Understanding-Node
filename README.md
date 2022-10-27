@@ -19,6 +19,7 @@ ___
 9. [Function Backpacks](./chapters/9_backpacks.md)
 10. [Synchronicity](./chapters/10_synchronicity.md)
 11. [Interface (Browser & Engine)](./chapters/11_web_api_interface.md)
+12. [Promises](./chapters/12_promises.md)
 <!--
 6. [Abstract Syntax Trees]()
 7. [Von Neumann Architecture]()

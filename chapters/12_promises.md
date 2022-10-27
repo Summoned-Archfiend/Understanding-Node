@@ -57,6 +57,56 @@ promise
 
 So do `promises` function in pure JS? no, they are using another of our `browser features`. When create a `promise` in JS within our `browser features` a network request is created under the hood, but rather than simply doing this and JS have no means of interacting with it until later a `promise` will have a consequence in JS immediately, the point at which our `fetch` label triggers our `network request` within the `browser` JS will simultaneously receive a `promise` object. This is a "special" type of object in such that it will begin with an empty argument which will be updated by our `browser` features. This object will sit in our `GVE`, when our background processes complete, the data returned will fill in the blank space in our objects data argument.
 
+## Promises in Action
+
+It's all well and good defining `promises` but to really understand them you need to see them in action. Lets run through an example as we have with `callbacks`. This will be somewhat more complex than previous examples due to the sheer amount that occurs with `promises` under the hood. This small five letter word is going to be responsible for the concurrent management of our `promise` object in JS and the configuration of our `network` communication in the browser.
+
+<pre>
+function print(data) {
+    console.log(data);
+}
+
+const futureData = fetch(SOME_API_ENDPOINT);
+futureData.then(print);
+
+console.log('Me First!');
+</pre>
+
+We begin with out first line where we declare a function `print`. This creates a `label` in the `GVE` in which the entirety of our `code` is stored just as we have seen a number of times before. We then declare a constant of the label `futureData`. This is, as usual, uninitialized at first, however, we know that the value of this constant will be the `evaluation` of the function call (or `facade` call in this case). To the right we see we are calling our `fetch` facade function, and we know that this will set up our `network request` in JS, we also know this must have a consequence immediately in JS.
+
+### JS Consequence
+
+The first consequence we will discuss is the one that happens within JS itself. At this moment in our code we receive our special `promise` object, this is just a normal `Object` like any other JS object, created automatically in JS by `fetch`. This `Object` comes bundled with two `properties`:
+
+1. Value -
+2. OnFulfilled -
+
+Value at this point is undefined as it has yet to have any value set to it. `OnFulfilled` is actually a hidden property which holds the value of an empty array. This whole `Object` is stored in the `futureData` label in the `GVE` to which it is assigned. Now, when we head off to the `web browser features` to set up our `network request` we have an `Object` kept in memory.
+
+### Web Browser Consequence
+
+Our second consequence occurs within the `web browser`. This is where we set up our `network request`, usually an `XHR` request (`XML HTTP Request`). We will keep this generic and refer to this here as simply a `network request`. Upon creating our `promise` the `browser` sets up our `network request` which requires the knowledge of the `address`, consisting of a `domain` (the address of the computer we are communicating with) and `path` (the path to the `endpoint` we are calling), passed to it from our arguments supplied to `fetch`. `Fetch` will also send a third argument, this will be the `HTTP` method we are using, the `HTTP verb`, which specifies our action. `Fetch` defaults to a `GET` request, if we wanted to send a `POST` request we could supply a secondary argument to `fetch` in the form of an `options` object to specify information about our intended request.
+
+<br />
+
+<div align="center">
+    <img src="../images/networkConsequence.png">
+</div>
+
+<br />
+
+This is already a lot considering the small amount of code we have thus far, but even now, our `web browser` still isn't done yet. Consider what ocurred inside our `browser` when we were using `callbacks`, we have set up our `network request`, but we have not yet checked for `completion` of our `callback`.  Unlike when we used the `timer` there is no definite time at which our `callback` will be pushed to the `callback queue`, instead, we are reliant on the `x` amount of time it may or may not take to retrieve data from the endpoint we provided. As such, our `network request` will first begin its work. It will henceforth send a request to our data source, when our browser performs it's first complete check at `0ms` it will however be incomplete as, althoguh we have sent the request, we are still waiting on a response from our source.
+
+When we used `callbacks` we passed in a function to run when our `onComplete` completes. However, we don't have any `function` passed into `fetch` here, so how do we know what to do on completion anyway? this is where our special `promsie `object comes back in. On completion, when our response data is received, it will instead be passed back into JS within the empty `value` property of our `promise` object. This raises a new problem, we don't know when this data will be returned, we have no inclination as to when it will be received, but when it is we need JS to automatically run some code to use the request at perform whatever task we might want to perform with it. This is where the `onFulfilled` property comes in. The `onFulfilled` property is an array, and there is a very good reason for this, this proeprty will store all our functions that we want to have automatically run when the `value` property is updated, which happens to be when our `fetch` task completes hopefully returning the data back from our source successfully. As such, we need a way to placing our `show` function within this array. This would mean that when our data is received the `show` function would automatically be run when `value` is updated with our response data. We do this by utilising our consumer function `then`, this function pushes the provided arguments to our `onFulfilled` array, we cannot do this directly as `onFulfilled` is a hidden property.
+
+<br />
+
+<div align="center">
+    <img src="../images/externalRequest.png">
+</div>
+
+<br />
+
 ---
 
 <div align="right">
