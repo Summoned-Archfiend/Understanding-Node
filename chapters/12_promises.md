@@ -123,7 +123,13 @@ As such we move to our next line where we actually call `then()`. As such, we ca
 
 Take a moment to appreciate that all of this setup came from simply 2 lines of code, most of it done by a single five letter label (`fetch`). In the background we have all of our setup completed, we are awaiting a response, talking to an external source, we have a callback waiting to run; and we have our special `Object` which gives us a connection from our `browser` back to JS. Remember, when our response data comes in through our `network response` the `value` of our object will update triggering all `callbacks` within our hidden `onFullfilled` property, not only that, but all data in our `value` property will be auto inserted as the `argument` to those `callbacks`. Also recall that `fetch` that we have been using is merely a `label` for interacting with our `network response` feature in the `browser`, as with all these features this is actually running in another language which supports the ability to communicate accross a network as JS does not. This means we can now move on with executing our code, consider that as we do on each line our `Event Loop` will check our `complete` status.
 
-And so, we move on, and thus at `1ms` of execution time we log the string "`Me First!`" to our console.
+And so, we move on, and thus at `1ms` of execution time we log the string "`Me First!`" to our console. So, we reached the end of our JS execution, so lets check our `network request` again. For arguments sake we will say at `200ms` we received back our `response object` from the external data source, at this point we check once again if our process has complete, we find YES it has, and so our `value` is updated with the `object` returned from the `network request`. Our special `promsie` object has had it's value updated, this means that our `callbacks` will now be run from within `onFulfilled` passing in the value of the `value` property as an argument to each function. Thus as `200ms` our `callback` is added to the `call stack`, running our function and creating a brand new `execution context` within which our data is first stored in local memory via the label `data`, recall we said this is automatically injected into our function via our special object, and the data itself is then is logged to the console. Note that we did not put the parenthesese onto this function to run it, we did not invoke this function, JS automatically invoked it for us.
+
+<br />
+
+<div align="center">
+    <img src="../images/promiseComplete.png">
+</div>
 
 ---
 
