@@ -131,10 +131,12 @@ And so, we move on, and thus at `1ms` of execution time we log the string "`Me F
     <img src="../images/promiseComplete.png">
 </div>
 
+<br />
+
 ---
 
 <div align="right">
 
-[<< prev](./11_web_api_interface.md) | [next >>](./)
+[<< prev](./11_web_api_interface.md) | [next >>](./13_promise_order.md)
 
 </div>
