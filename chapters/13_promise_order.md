@@ -24,3 +24,23 @@ We then know that our `fetch` facade will also instantiate another `browser feat
 So how about we parse through this and determine whether or not our predictions are correct? remember `computing` is a `science`, although many don't see development that way it really is, this means you should always be looking to implement the scientific method where you can. This means beginning with a problem, analysing said problem, determining a hypothesis, testing the hypothesis, observing the effects, condensing the hypothesis into a coherent theory, and then testing said theory once again with observational data. A mistake many junior devs make is either not starting at the beginning of a problem, being unwilling to take a step back, or blindly trying things without any methodology, this increases the time it may take to solve a problem and decreases your chances of ever even solving it, let alone understanding where it went wrong in the first place. Be methodical, be a scientist.
 
 ## Exploring Call Precedence
+
+We begin with our declaration of `print`, `sayHello`, and `blockFor300ms`. As we have already established many times this will create a reference in memory assigning our entire code of each function to their corresponding label:
+
+<br />
+
+<div align="center">
+    <img src="../images/promiseFunctionDeclarations.png">
+</div>
+
+<br />
+
+We then get to our more interesting line of code, the facade, `setTimeout`. We reach our `facade` which our JS `engine` parses, in this case the `V8` engine, as such, it finds runs the `label` which has the associated `C++` code in `V8` which handles our timer setup. From this we can infer that the `timer` browser feature will be set up with the argument `sayHello` as a function to add to our `callback queue` on completion along with the duration as to how much time should pass before our function is added to the `callback queue`, in this case `0ms`. Our `engine` the runs our first completion check at `0ms`. From our provided duration the engine can see that the allocated amount of time has passed, thus our `sayHello` function is added to our `callback queue` and thus we are able to move onto our next line of execution.
+
+<br /> 
+
+<div align="center">
+    <img src="../images/promiseLargeExampleTimer.png">
+</div>
+
+<br />
