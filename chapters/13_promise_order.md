@@ -43,4 +43,32 @@ We then get to our more interesting line of code, the facade, `setTimeout`. We r
     <img src="../images/promiseLargeExampleTimer.png">
 </div>
 
+At `1ms` of execution time we create a `fetchData` label in the `GEV`, assigning it the evaluated value of `fetch`. `fetch` is a facade for functionality written in `C++` in the `V8` engine much like our timer, except in this circumstance we are going to interface with the `network response` feature. The first consequence of this occurs within JS itself, a special `promise` Object is created and stored via the `futureData` label within the `GVE`. The properties on this object will be a label `value` with the value uninitialized and a hidden property of an empty array assigned to the label `onFulfilled`. Our `network request` is sent off at this `1ms` mark right away, but we wont hear a response back for a while, therefore on our first `complete` check the engine finds that we have not yet received our data, therefore our task has not yet `completed`.
+
 <br />
+
+<div align="center">
+    <img src="../images/networkRequestConsequenceLarge.png">
+</div>
+
+<br />
+
+Thus, once again, we are free to move unto our next line of JS code. Take a moment to consider how many times our code would have been blocked thus far if we were unable to complete these tasks asynchronously. On our next line we call our `then` consumer function pushing our `print` function unto the hidden property array `onFulfilled` with our `arguments` being filled in automatically on invocation by the value stored in `value`.
+
+<br />
+
+<div align="center">
+    <img src="../images/fetchDataThenPushLarge.png">
+</div>
+
+<br />
+
+At `2ms` of execution time we run the function `blockFor300ms` adding it to the `call stack` and creating a new `function execution context`. Our `thread of execution` weaves into the context and is blocked by some process for `300ms`. Concurrently, for arguments sake lets say at around `270ms`, our browser has received a response from our external data source updating our `value` within the `promise` object with our `request object` data and automatically triggering our `onFulfilled` function invocation. This is the point at which we are missing a key component, you would be forgiven for thinking that this task would be assigned to the `callback queue` just like our `timer`, however, in this case our task is instead assigned to something known as the `microtask queue`. We know our `event loop` checks between every line of code if there are any tasks on the `call stack`, if there are it will run them, if not it will instead check the `callback queue`. Prior to this there is the `microtask queue` which will be checked before the `callback queue`, if there are any tasks, it will de-queue the task and push it to the `call stack`. We will define this in greater detail shortly, for now, just know that our `print` function has been added to this queue.
+
+Thus our code continues, exiting our `blockFor300ms FEC` at `302ms` running our next line of code which logs the string `Me First!` to our console. Since all of our synchronous code has run, thus our `event loop` has no more tasks to run on the `call stack`. Our `event loop` next checks the `microtask queue` where our `print` task currently exists and thus pushed `print` onto the `call stack` removing it from the `microtask queue`. So at roughly `303ms` our data received from our `response object` is logged to the console via the `print` function.
+
+<br />
+
+<div align="center">
+    <img src="../images/microtaskQueue.png">
+</div>
