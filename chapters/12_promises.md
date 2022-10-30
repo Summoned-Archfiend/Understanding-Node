@@ -84,8 +84,11 @@ The first consequence we will discuss is the one that happens within JS itself. 
 
 1. Value - The value of our `response object`
 2. OnFulfilled - The `functions` to run when our `value` updates
+3. onRejection - The `funcitons` to run when error occurs
 
 Value at this point is undefined as it has yet to have any value set to it. `OnFulfilled` is actually a hidden property which holds the value of an empty array, eventually this array will contain our `callbacks`. This whole `Object` is stored in the `futureData` label in the `GVE` to which it is assigned. Now, when we head off to the `web browser features` to set up our `network request` we have an `Object` kept in memory giving us a strong link between the process that occurs in JS and those which occur within the `browser`.
+
+It is worth noting at this point that our `onRejection` functions will only run when an error occurs. We set the functions within this `hidden property` via our consumer function `catch`, in the case that this is triggered we do not run the functions in our `onFulfilled` array. Whilst we will not look at `catch` here know that `catch` works in the same manner as `then`, however, think about in which ways it may be different, we know it pushed to a different array for instance, other than that it works in almost entirely the same manner under the hood.
 
 ### Web Browser Consequence
 
