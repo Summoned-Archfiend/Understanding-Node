@@ -72,3 +72,26 @@ Thus our code continues, exiting our `blockFor300ms FEC` at `302ms` running our 
 <div align="center">
     <img src="../images/microtaskQueue.png">
 </div>
+
+<br />
+
+Our `event loop` checks the `call stack` again, there is nothing to run, thus it once again checks the `microtask queue` which is now also empty. Lastly, it checks the `callback queue` and finds our `sayHello` function. This function is added to the `call stack` invoking it and logging `Hello` to our console. Note that we have glossed over the invocation here, both these cases will still result in new execution contexts, however, these contexts are simply not that interesting and for brevity I feel it best to omit these, at this point well known, principles.
+
+<br />
+
+<div align="center">
+    <img src="../images/finalModelLarge.png">
+</div>
+
+<br />
+
+## Microtask Queue
+
+
+---
+
+<div align="right">
+
+[<< prev](./12_promises.md) | [next >>](./)
+
+</div>
