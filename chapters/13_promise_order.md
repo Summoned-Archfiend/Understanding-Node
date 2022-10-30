@@ -85,7 +85,37 @@ Our `event loop` checks the `call stack` again, there is nothing to run, thus it
 
 <br />
 
-## Microtask Queue
+## Async Await
+
+In ES6 we have an alternative to `promises` which has become far more popular. As we previously learned `promises` are a method of performing asynchronous tasks in JS much like `callbacks`, but since they provide the handy `then` and `catch` functions giving us access to our data within the call upon our special `promise` object we are able to avoid the problematic hellscape that is callback hell. If we take a look at an example of a `promise` we see that it looks much neater than our `callbacks`, however, due to it's nested state it is still not particularly nice to look at. If we had many complex tasks to perform as a part of these promises things could become un-activitywieldly rather quickly.
+
+<pre>
+const axios = require('axios');
+
+axios.get(API_ENDPOINT)
+    .then(res => console.log(res.data.message))
+    .catch(err => console.error(`Error: ${err}`));
+
+console.log('Hello!');
+
+</pre>
+
+Enter `Async/Await`, these keywords are additional syntax surrounding `promises`, we are not replacing `promises` and it will work in exactly the same way except for the fact using `await` inside of a function declared as `async` will force our code to wait for the `promise` to resolve before moving onto the next line. This effectively makes our `asynchronous` code look `synchronous` making it much more readable. It is important to stress that we are still using `promises` with this syntax, this is not something new and our above examples still apply, however, the appearance of our code is much cleaner. We will still receive our special `promise` object, we will still have our `functions` added to an array of functions to be run at a later point, and we will still have the interaction occur via the web browser features. The only thing which differs here is how we are writing our syntax, with the JS engine conducting some additional parsing for us to work out exactly what to do with our new keywords. By declaring our function `async` JS knows that when we see `await` we must wait for the `promise` resolution before moving on, however, calling the `async` declared function in the `GVE` will still allow us to continue execution whilst this is queued to resolve in the same manner as we do so when we declare a promise and move on. Once all `synchronous` code has resolved our functions will be popped from the `microtask queue` and pushed unto the `call stack` for execution.
+
+<pre>
+const axios = require('axios');
+
+async function getMessage() {
+    try {
+    let res = await axios.get(API_ENDPOINT);
+    console.log(res.data.message) // this line will not run until the promise is resolved
+    } catch (err) {
+        console.error(`Error: ${err}`)
+    }
+}
+
+getMessage();
+</pre>
 
 
 ---
