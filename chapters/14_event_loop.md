@@ -89,6 +89,72 @@ If we take a look at the above code we know that when we reach our `result` decl
 
 <br />
 
+#### Stack Overflow
+
+A rather common occurrence when using recursion in any language is the `stack overflow` error. Even if you have never seen
+this before you have likely heard of it due to the website `Stack Overflow` giving it some fame. `Stack Overflow` occurs
+when we fill our `call stack` but do not have any means of removing anything from it. This happens when we have nested
+calls which recur over and over without ever resolving any of the internal contexts. As we know, when we execute a function
+we create a new execution context, this adds a new frame unto our `call stack`. The `Call Stack` however is finite, and therefore
+can be filled. Should we exceed our `call stack` we receive the following error.
+
+<br />
+
+<img src="../images/stackoverflowErr.png">
+
+<br />
+
+We can set a breakpoint within a function causing a `stack overflow` error and trace through the `call stack`. We don't need to trace through all the way (that could take a while) but we can clearly see even after just 5 runs that something is very wrong.
+
+<br />
+
+<img src="../images/StackoverflowCallstack.png">
+
+<br />
+
+The code used to trigger this looks like this:
+
+<br />
+
+<pre>
+function stackOverflowSim() {
+    try {
+        stackOverflowSim();
+    } catch(error) {
+        console.error(error);
+    }
+}
+
+stackOverflowSim();
+</pre>
+
+<br />
+
+Lets quickly walk through what happens here. The first line we declare a function `stackOverflowSim`, a reference to our code is saved in the global variable environment. On the next line our function is invoked creating a new function execution context and adding our function to the `call stack`. On the first line our function in this execution context our function is invoked again, creating another function execution context and adding it to the call stack. This occurs over and over an infinite number of times. Notice how none of our calls ever have a chance to return, they never cease execution, and thus never leave the `call stack`. This means that our `call stack` is filled, the pointer exceeds our stack bound, and an error is thrown. Note that our stack size is browser specific.
+
+We can easily avoid a stack overflow by making sure our context always has a path to resolution. This enables our function to complete execution in the `call stack` which enables all of the others to also complete.
+
+<br />
+
+<pre>
+function recursion(count) {
+    try {
+        count += count;
+        if (count > 999999999999999999999) {
+            console.log(count);
+            return;
+        }
+        recursion(count);
+    } catch(err) {
+        console.error(err);
+    }
+};
+
+recursion(1);
+</pre>
+
+<br />
+
 ### Heap Memory
 
 The `heap` is a large, mostly unstructured, region in memory where `Objects` are stored. This is an incredibly simple concept which ties in with the `stack`. When we create an Object within an executing `stack frame` the reference to the Object is stored on the `stack frame` whilst the actual Object itself is stored within the `heap`.
@@ -96,6 +162,8 @@ The `heap` is a large, mostly unstructured, region in memory where `Objects` are
 <div align="center">
     <img src="../images/heap .png">
 </div>
+
+<br />
 
 ### Queue
 
