@@ -165,6 +165,21 @@ The `heap` is a large, mostly unstructured, region in memory where `Objects` are
 
 <br />
 
+Lets say we have some code. Everytime we declare a variable, Object, or function its value is stored in the `memory heap` with a reference to the location of the value being placed in the variable. Whenever the code needs the value/function it uses this memory location reference to look it up. JS will clear this up automatically via `garbage collection` by determining which nodes are no longer necessary. It does this by checking each reference in memory, it uses a technique called `mark and sweep` which is an algorithm that determines the objects which are safe for deletion based on which objects are reachable in memory and those which are not, the logic here being that the nodes which are now unreachable are no longer in use and therefore can be reallocated to free up memory for another process. As such, the garabage collector begins with the `global` object. It moves from one object to another in memory identifying the objects which are referenced by other objects, any unreferenced objects are reclaimed.
+
+### Memory Leaks
+
+It is possible that the way we write our code may make some pieces of
+the heap unreclaimable although the program no longer has use for them. This is what we call a `memory leak`. `Memory Leaks` are parts of memory which were necessary, and used, in the past but are no longer needed yet the memory has not been reclaimed and returned to the pool for some reason. Although JS handles much of our memory management we still need to be cautious with memory. It is possible that the way in which we code may cause our application to run out of all available memory due to our heap memory not being reclaimed correctly. There are key mistakes we may make which can increase the possibility of `memory leaks`:
+
+1. Global Variables - Stay around throughout the execution of the program, even if they are not needed, if these variables are deeply nested objects a lot of memory may be wasted.
+
+2. Not Removing Event Listeners - When an Event Listener is no longer needed it should be removed. For instance, if we create many Event Listeners for a particular page or location the user no longer needs these Event Listeners, however, these listeners will still be there taking up memory.
+
+3. Uncleared Time intervals - `SetInterval` would be an instance of this. `SetInterval` allows us to execute some code recurrently based upon a set amount of time. This means our `callback` is invoked every how ever many milliseconds we pass as our second argument. This becomes a problem if we reference a number of objects within our `callback`. If this setInterval is never cleared the references will still be valid thus the program can never free any of our memory in the heap even if they are no longer used. A better approach to using `intervals` is to use the `ID` which is returned from the `setInterval` function that way we can clear it using `clearInterval` once the work is done.
+
+4. Removed DOM Elements - If we programmatically remove DOM elements within our code, but the elements are still referenced, the memory is not freed in our `heap`.
+
 ### Queue
 
 Finally, we have the queue, specifically the `message queue`. This is simply a `FIFO` construct which keeps track of messages to be processed. Each message has an associated function of which to execute, when we say we process the message we mean we have popped it from the `queue` and invoked the function associated with it. When the function associated with the `message` is executed it is pushed unto the `call stack` in the same manner as any other function. Queues run to completion, this means that the queue is executed sequentially, there can be no interruption, no pausing, no parallel execution of multiple messages, each function once called must run to completion.
