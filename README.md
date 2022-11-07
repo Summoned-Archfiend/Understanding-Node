@@ -26,6 +26,15 @@ ___
 6. [Abstract Syntax Trees]()
 7. [Von Neumann Architecture]()
 -->
+
+___
+
+<br />
+
+- [JavaScript Short Rules]()
+
+<br />
+
 ___
 
 <div align="right">
