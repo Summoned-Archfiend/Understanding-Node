@@ -84,3 +84,18 @@ Function.prototype.method = function (name, func) {
 </pre>
 
 <br />
+
+27. Protect Against Mixed Libraries - Mixing libraries can cause issue. In other languages we have separate namespaces to defend against this, in JS however we need to protect against this. In our previous rule we augmented the `Function` basic type. However, another library may have already augmented this with the same method name we used, this is because prototypes are public structures and thus subject to changes. One defensive technique we can utilise is a basic check in which we only create our function if it does not already exist, of course this means we wont get our function if there is a function of the same name already.
+
+<br />
+
+<pre>
+Function.prototype.method = function (name, func) {
+    if (!this.prototype[name]) {
+        this.prototype[name] = func;
+        return this;
+    }
+}
+</pre>
+
+<br />
