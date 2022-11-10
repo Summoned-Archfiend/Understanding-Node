@@ -33,7 +33,7 @@ ___
 
 <br />
 
-- [JavaScript Short Rules]()
+- [JavaScript Short Rules](./chapters/bonus__short_rules.md)
 
 <br />
 
