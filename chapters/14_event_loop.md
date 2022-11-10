@@ -198,6 +198,8 @@ while (queue.waitForMessage()) {
 
 <br />
 
+Overall our `event loop` is the very thing that orchestrates every process we have discussed previously together. Every `value` will have an associated entry saved in the `heap` and every `function` is executed via a push to the `call stack`, being popped from it upon return from the function. `Facade` functions are added to the `call stack` but immediately handed to the `web api` to be executed. The `web api` handles our asynchronous calls in this manner by pushing them to the `message queue` after their interval completes. Upon completion the items from the `message queue` are pushed unto our `call stack` for execution like any other function, this only occurs at the end of execution of all synchronous code.
+
 ---
 
 <div align="right">
