@@ -22,11 +22,11 @@ ___
 12. [Promises](./chapters/12_promises.md)
 13. [Continuing Promises](./chapters/13_promise_order.md)
 14. [Event Loop](./chapters/14_event_loop.md)
-15. 
 
 <!--
-6. [Abstract Syntax Trees]()
-7. [Von Neumann Architecture]()
+[Abstract Syntax Trees]()
+[Von Neumann Architecture]()
+[Node Event Loop]()
 -->
 
 ___
