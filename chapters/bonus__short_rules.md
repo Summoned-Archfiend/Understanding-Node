@@ -70,4 +70,17 @@ Expressions make it clear that our function is a value attached to a variable. S
 
 24. Avoid New - yes, that's right, the `new` keyword, avoid it. Behind the scenes JS is a prototypal language, not a class based language, the class based syntax is nothing but syntactic sugar, but can also lead to problems. The `new` operator creates a new `object` which inherits from the operands prototype member. It then calls the operand, binding the created object to the `this` keyword. This gives the operand a chance to customise the new object before it is returned. You had better have provided this as a `constructor` function. The problem occurs if you forget the `new` keyword, in this case you will instead get can ordinary function call, since this is now no longer using the `new` operator there is not object created and nothing to bind `this` to, thus `this` is instead bound to the `global` object. This means whenever you initialize a new object by invoking the function you will be instead interacting with `global` variables. The JS convention to avoid this is to capitalize any functions that are to be used with the `new`. This gives a visual cue should any issues arise. There are no compiler-time warnings for this issue, nor runtime warning so it can be incredibly problematic to debug. It is far better to simply avoid using `new` at all.
 
-25. Don't use Void - JS actually has no `void` type. In JS `void` returns `undefined`, it is incredibly confusing. don't do it. 
+25. Don't use Void - JS actually has no `void` type. In JS `void` returns `undefined`, it is incredibly confusing. don't do it.
+
+26. Hide ugly features - JS can be beautiful, but it's low barrier to entry also means it suffers from a similar problem that is often complained about in `php`. It is far too easy to write ugly code. JS is very accepting, which means it can be easy to write code that works, but not so much when it comes to writing code that is maintainable and beautiful. We can hide a lot of the ugly through various methods, we can `augment` functions for instance to hide ugly prototype calls. This is the true power of the JS prototype system. It allows us to make the language far more expressive by augmenting parts to suite our needs. This is possible because every object which uses this prototype chain will inherit the methods we define on the prototype of our basic types.
+
+<br />
+
+<pre>
+Function.prototype.method = function (name, func) {
+    this.prototype[name] = func;
+    return this;
+}
+</pre>
+
+<br />
