@@ -38,4 +38,36 @@ There is no easy route to programming, no magic formulae which will make you an 
 
 18. Keep Blocks Consistent - BlockLess statements are another `evil` in JS. They are often used by `python` buffs or those coming from languages which lack the use of `curlys` for determining project structure. However, in JS these cannot be relied on, programs can run unpredictably and blocks may not end or start where you expect when using blockless statements. `Blocks` make it easier to get your structure right, they have a clear beginning and end, and we can trace them in our code editor by seeing the curly pairs. At te very least keep your use of blocks consistent, but I would recommend never using blockless statements at all.
 
-19. Avoid shorthand `++/--` operators - These operators can be too cryptic. We can instead be more explicit reducing bugs and creating a cleaner coding style. Yes, it means writing a few more characters, but, when you consider the fact that these two operators are often the cause of `buffer overrun` bugs which cause serious security vulnerabilities it is worth the trade off to move forward without them. 
+19. Avoid shorthand `++/--` operators - These operators can be too cryptic. We can instead be more explicit reducing bugs and creating a cleaner coding style. Yes, it means writing a few more characters, but, when you consider the fact that these two operators are often the cause of `buffer overrun` bugs which cause serious security vulnerabilities it is worth the trade off to move forward without them.
+
+20. Use Global Abatement - As mentioned in our previous rules you should absolutely avoid `Global Variables`. However,
+sometimes you may find they are a necessary evil, not often, but sometimes. `Global Abatement` allows us to comparementised
+our application privatising our `globals` into our application scope. This is somewhat similar to namespacing an app
+in other languages. `Global Abatement` is the act of reducing our global footprint to a single name. We do so by
+creating an object which contains our application.
+
+21. Be sparing with Bitwise Operators - If you have come from a lower level language you will likely be familiar
+with `Bitwise Operators`. Usually bitwise operators work with integers, however, JS doesn't have integers, so
+the bitwise operators have to convert the double floating point numbers into integers. It mus then also
+convert them back once the operation completes. In lower level languages these operators are very close to
+the hardware, and thus operate very quickly, however, in JS they are much further from the hardware and thus
+actually very slow. You shouldn't need to do bitwise calculations often in JS, but if you do try to use them
+sparingly.
+
+22. Prefer Function Expressions - In JS we have both `function statements` and `function expressions`. Both are
+similar:
+Expressions make it clear that our function is a value attached to a variable. Statements are also subject to hoisting, this can lead to sloppy code as it relaxes the requirement for our function to be declared before it is used. Another important note is that most browsers allow function statements inside if statements, however, their interpreters interpretation of the code may vary accross implementations, we also cannot set an expression as the first part of our statement because the grammar assumes a function statement to also be preceded by the keyword `function`.
+
+<div align="center">
+
+| Function Statement | Function Expression |
+| --- | --- |
+| <code>function foo() {} </code> | <code>const foo = function foo () {}</code> |
+
+</div>
+
+23. Avoid Typed Wrappers - Typed wrappers such as `new Boolean()`, `new Object`, `new Array` should be avoided. if you create an Object use `{}`, an array use `[]`, for typed wrappers such as `Boolean` outright avoid using them, they produce an Object that has a `valueOf` method which returns the wrapped value. This can lead to confusion and is a totally unnecessary additional step.
+
+24. Avoid New - yes, that's right, the `new` keyword, avoid it. Behind the scenes JS is a prototypal language, not a class based language, the class based syntax is nothing but syntactic sugar, but can also lead to problems. The `new` operator creates a new `object` which inherits from the operands prototype member. It then calls the operand, binding the created object to the `this` keyword. This gives the operand a chance to customise the new object before it is returned. You had better have provided this as a `constructor` function. The problem occurs if you forget the `new` keyword, in this case you will instead get can ordinary function call, since this is now no longer using the `new` operator there is not object created and nothing to bind `this` to, thus `this` is instead bound to the `global` object. This means whenever you initialize a new object by invoking the function you will be instead interacting with `global` variables. The JS convention to avoid this is to capitalize any functions that are to be used with the `new`. This gives a visual cue should any issues arise. There are no compiler-time warnings for this issue, nor runtime warning so it can be incredibly problematic to debug. It is far better to simply avoid using `new` at all.
+
+25. Don't use Void - JS actually has no `void` type. In JS `void` returns `undefined`, it is incredibly confusing. don't do it. 
