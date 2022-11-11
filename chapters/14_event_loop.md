@@ -207,7 +207,7 @@ remove();
 
 <br />
 
-In this case our process is handed over to the `Web API` for processing. The browser handles the setting up of our `timer` as we have seen before, once our timer meets it's completion criteria (this is for `0s` to have passed in this example) the process will immediately be added to the `callback queue`. Once all synchronous code has completed and there are no more tasks in the `call stack` the queue items are fed into the `call stack` by the event loop for execution. Thus, due to diverting our traffic in this sense we free up space in our `call stack` prior to processing. This does mean our processing is conducted somewhat slower, we can see this if we log it in the browser, however, it is far better than blocking our code for a long process. 
+In this case our process is handed over to the `Web API` for processing. The browser handles the setting up of our `timer` as we have seen before, once our timer meets it's completion criteria (this is for `0s` to have passed in this example) the process will immediately be added to the `callback queue`. Once all synchronous code has completed and there are no more tasks in the `call stack` the queue items are fed into the `call stack` by the event loop for execution. Thus, due to diverting our traffic in this sense we free up space in our `call stack` prior to processing. This does mean our processing is conducted somewhat slower, we can see this if we log it in the browser, however, it is far better than blocking our code for a long process.
 
 ### Heap Memory
 
@@ -258,6 +258,6 @@ Overall our `event loop` is the very thing that orchestrates every process we ha
 
 <div align="right">
 
-[<< prev](./13_promise_order.md) | [next >>](./)
+[<< prev](./13_promise_order.md) | [next >>](./15_execution_contexts.md)
 
 </div>
