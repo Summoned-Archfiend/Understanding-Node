@@ -155,6 +155,60 @@ recursion(1);
 
 <br />
 
+Dealing with common issues like `memory leaks` and `stack overflow` is important if we are to build a robust and resilient application. We want our users to have a smooth experience, but we cannot account for every usage, thus we must do our best to catch and handle errors that we can't predict, whilst handling and managing those we can.
+
+Lets say we have a case where we want to remove items from an array of an indefinite length. At first glance this task seems easy enough, we might first create a test array to simulate our data and fill it with some values. You then may think we could simply pop our items from the function recursively:
+
+<br />
+
+<pre>
+<code>
+let testArray = Array(1000).fill(1);
+
+const remove = function() {
+    testArray.pop();
+    if (testArray.length > 0) {
+        remove(testArray);
+    }
+};
+
+remove();
+</code>
+</pre>
+
+<br />
+
+This is all well and good when we have `1000` items, but notice how nothing is being returned. This means that every invocation adds unto our `call stack`, none of the recursive calls will cease execution until the entire execution is completed because of this. So at `1000` it seems to work, great, but what if we have `20000`?
+
+<div align="center">
+
+<img src="../images/maximumstack20k.png">
+
+</div>
+
+Oh no, we exceeded the maximum stack calls! but we don't want to have to return out of our function each time, this would mean our recursive calls would return out rather than executing `recursively`. Not to worry though, we can actually utilise `asynchronous` tasks, this will mean our processing is conducted at a slower rate since it must first be added to the message queue before it is processed unto the `call stack`, meaning we shouldn't receive a `stack overflow`:
+
+<br />
+
+<pre>
+<code>
+let testArray = Array(20000).fill(1);
+
+const remove = function() {
+    testArray.pop();
+    if (testArray.length > 0) {
+        setTimeout(remove(testArray), 0);
+    }
+};
+
+remove();
+</code>
+</pre>
+
+<br />
+
+In this case our process is handed over to the `Web API` for processing. The browser handles the setting up of our `timer` as we have seen before, once our timer meets it's completion criteria (this is for `0s` to have passed in this example) the process will immediately be added to the `callback queue`. Once all synchronous code has completed and there are no more tasks in the `call stack` the queue items are fed into the `call stack` by the event loop for execution. Thus, due to diverting our traffic in this sense we free up space in our `call stack` prior to processing. This does mean our processing is conducted somewhat slower, we can see this if we log it in the browser, however, it is far better than blocking our code for a long process. 
+
 ### Heap Memory
 
 The `heap` is a large, mostly unstructured, region in memory where `Objects` are stored. This is an incredibly simple concept which ties in with the `stack`. When we create an Object within an executing `stack frame` the reference to the Object is stored on the `stack frame` whilst the actual Object itself is stored within the `heap`.
