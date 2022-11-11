@@ -70,6 +70,8 @@ Note, the reason using `function expressions` is recommended is because it force
 
 <br />
 
+From experience we know that there is more than just the `global` execution context as we have discussed here. We know that every function invocation will add to our `call stack` creating a new `function execution context`. These sub-contexts act in the same manner, but as new contexts. This means that our memory is local to the functions context, but the same phases and setup occur within this context just like running within our global context. The difference we see is the value of `this` within our function execution contexts. The value of `this` is dependent on how the function is invoked. Its value is set to the object of which the execution context belongs.
+
 ---
 
 <div align="right">
