@@ -56,9 +56,11 @@ function myFunc {
 
 <br />
 
-You will notice that the function runs as normal. when we have a function declaration we are able to invoke it prior to it's definition, be warned this can lead to sloppy code which is why many recommend using `function expressions` instead. This is possible because our function code is actually already saved in memory from our `creation phase`.
+You will notice that the function runs as normal. when we have a function declaration we are able to invoke it prior to it's definition, be warned this can lead to sloppy code which is why many developers recommend using `function expressions` instead. This is possible because our function code is actually already saved in memory from our `creation phase`.
 
 Notice how we use `var`, this is very bad practice as we should never use `global` variables. We do this in this example as if we were to use `const` or `let`, as is best practice, we receive an error. This is what we would expect to happen in other languages, it occurs because `let` and `const` differ in scope from `var`. In JS `var` and `function` declarations are subject to `hoisting`. `Hoisting` is often incorrectly described as the movement of declarations to the top of the code. JS is not moving our declarations, nor rearrangement of code. Instead, during the `creation phase` our code is scanned, all `var` and `function` declarations are then added to our `heap memory`. This means that they can be used prior to declaration as they already exist in memory, though the assigned value may be `undefined` if a `var` has not been initialised, this will also throw no error which can make code very difficult to debug.
+
+Note, the reason using `function expressions` is recommended is because it forces us to use good code structure. Function expressions are not subject to `hoisting` thus, if we try this example with a function expression our code will simply fail. This forces us to always declare our functions prior to them being used, it also enforces the idea that variables should be declared at the top of our functions, and that every function is a value.
 
 <br />
 
@@ -67,3 +69,11 @@ Notice how we use `var`, this is very bad practice as we should never use `globa
 </div>
 
 <br />
+
+---
+
+<div align="right">
+
+[<< prev](./14_event_loop.md) | [next >>](./)
+
+</div>
