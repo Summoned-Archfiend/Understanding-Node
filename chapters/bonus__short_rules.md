@@ -98,6 +98,8 @@ Function.prototype.method = function (name, func) {
 }
 </pre>
 
+<br />
+
 28. Use `null` for purposefully valueless references - When we code in JS we sometimes have cases where we want to leave a value undefined. The problem here is that the system applied undefined, whilst we can assign it ourselves this can lead to confusion in our codebase should we forget to create a variable. It is far better to leave `undefined` as a value only assigned by the system and instead use `null` ourselves. Remember, that `undefined` is itself a value, whilst `null` is the abscence of value. By doing this we know that anytime we see `undefined` in our output we know that it is something which is missing a definition, not something we have purposefully left without value.
 
-<br />
+29. Avoid the use the `BigInt` Type for large numbers - JS originally had only one number type, this meant everything in JS is handled as a floating point number, even those which do not explicitly have decimals. Floating point is great for handling calculations for many applications, but, we can run into issues when we get into larger numbers as floating points are not precise enough. JS recently introduce the `BigInt` type to allow a native solution for dealing with large numbers. We can use the `BigInt` type by adding `n` to the end of a number or by explicitly using the `BigInt` constructor. Keep in mind that `BigInt` will never display a decimal number, `BigInts` are not strictly equal to Numbers. Because of these weaknesses I would avoid using `BigInt` unless you really need to. There are other solutions to dealing with large numbers which have fewer side effects in our code. I also do not like the fact it encourages the use of our loose equality operators. Don't use `BigInt` if you can help it.
