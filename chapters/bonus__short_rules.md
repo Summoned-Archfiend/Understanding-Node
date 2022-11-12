@@ -98,4 +98,6 @@ Function.prototype.method = function (name, func) {
 }
 </pre>
 
+28. Use `null` for purposefully valueless references - When we code in JS we sometimes have cases where we want to leave a value undefined. The problem here is that the system applied undefined, whilst we can assign it ourselves this can lead to confusion in our codebase should we forget to create a variable. It is far better to leave `undefined` as a value only assigned by the system and instead use `null` ourselves. Remember, that `undefined` is itself a value, whilst `null` is the abscence of value. By doing this we know that anytime we see `undefined` in our output we know that it is something which is missing a definition, not something we have purposefully left without value.
+
 <br />
