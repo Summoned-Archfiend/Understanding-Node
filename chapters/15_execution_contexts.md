@@ -72,6 +72,71 @@ Note, the reason using `function expressions` is recommended is because it force
 
 From experience we know that there is more than just the `global` execution context as we have discussed here. We know that every function invocation will add to our `call stack` creating a new `function execution context`. These sub-contexts act in the same manner, but as new contexts. This means that our memory is local to the functions context, but the same phases and setup occur within this context just like running within our global context. The difference we see is the value of `this` within our function execution contexts. The value of `this` is dependent on how the function is invoked. Its value is set to the object of which the execution context belongs.
 
+## Scope & Scope Chain
+
+We have talked a lot about execution contexts, whilst it may seem unrelated, `scope` is a fundamental concept in any programming language, but particularly so in JS when it comes to execution contexts. You see, whenever we add a `function` to our `call stack` (when it is `invoked`) we create a new `execution context` as we have seen many times. That is not all however, we also create a whole new variable environment within our context, which defines our `scope`. A `scope` can be though of as a set of rules which determine the set of all accessible referenced objects (variables and functions). The official definition of `scope` in JS reads as such:
+
+<pre>
+"<em>Scope refers to the visibility of variables or functions to the executing code. In JavaScript a variable or function is visible to the executing code, if it is in the current lexical environment or the parent lexical environment.</em>"
+</pre>
+
+We can break this down into a more simplistic definition, the basic concepts of which can be taken as:
+
+1. Scope is determined lexically - Variable and Function definitions determine if they are accessible from the code dependent on the location of the code itself. We know that the JS engine will first read through our code in the creation phase line-by-line and create references in our `heap memory` for every `function` and `var` keyword discovered. We also know that nothing is evaluated in this phase, `functions` will not be invoked until the evaluation phase, at which point `functions` will create a new execution context upon invocation. By lexically we mean that the scope is determined line-by-line or "in order", this definition means that we have access to references from within our current `variable environment` or that of it's parent, for instance, if we have a function definition inside a function we have access to the variables in the parent function, this is called a `closure` and we have seen this in prior chapters.
+
+2. JavasScript uses function scope - A `function` creates an execution context, the `variable environment` created within this `execution context` helps determine our scope.
+
+3. A unavailable referenced item in the local scope will lead the JS engine to traverse the `scope chain` seeking it - This is to do with our first definition. We know that if a referenced item is not available in the current scope it may be available in the `parent` scope. We also know that we do indeed have access to references in our parent scopes. This is where the scope chain comes in. If the JS engine is unable to find the `reference` within the `local scope` the engine will traverse through the `scope chain` back through each parent until it finds it. If it does not find it it goes up to the next parent and so on... until it either finds the reference, reaches the `global scope`, or returns an error, if the script is not in strict mode the engine may create a new variable and assign the value to it.
+
+<br />
+
+<div align="center">
+    <img src="../images/lexicalFunctionScopeDiagram.png">
+</div>
+
+<br />
+
+Thus far we have seen `function` and `global` scope but since the release of `ES6` JavaScript also includes `block` scope which is handled by the keywords `let` and `const`. With the above code what happens if we change every `var` declaration to `let`? well, although our code is handled differently we would find that our code still functions the same as using `var` in terms of scoping here, so what is block scoping? block scoping is determined by our curly braces, the reason we see no difference with the above code whether we use `let` or `var` is that our blocks in this code are all themselves functions. In order to see block scoping we need a different example:
+
+<br />
+
+<code>
+const sum = function(x) {
+    let y = 20;
+    if (y > x) {
+        let z = 10;
+    };
+    console.log({ xy: x + y });
+    console.log({ xz: x + z });
+};
+
+sum(30);
+</code>
+
+<br />
+
+Here you will see that z is not accessible fro outside of our block. It is declared within the curly braces of our if statement. The declaration of the `sum` function however still becomes a member of the `global` scope even though we use `const`, thus the outer scope will still function in the same manner. We can even declare a function of the same name within a block scope, this is because the block scoping will mean that a new reference is created in memory, hence, these two declarations would actually point to two completely different variables of the same name but in differing scopes. Just to illustrate that the curly braces are the only thing that matters in terms of creating a block scope try making a prediction before running the following code:
+
+<br />
+
+<pre>
+<code>
+
+let greeting = 'Hello!';
+
+{
+    let greeting = 'Aloha!';
+}
+
+console.log(greeting);
+
+</code>
+</pre>
+
+<br />
+
+If you predicted `Hello` would be the outcome you would be correct. We create a block scope using curly braces, thus the second let in our code is an entirely different function, try putting a log in within the block to log the second greeting, then try removing the second greeting but still logging it within the block. You should see that JS has access to the parent scope too, and that the scope chain will find our first greeting declaration in the event that it has no declaration within the current block scope. However, the block scope variable is not accessible from outside of that block scope as demonstrated above. Although we often associate the curly braces with different types of statements, it is the braces themselves in the grammar which create our scope. 
+
 ---
 
 <div align="right">
