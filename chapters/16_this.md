@@ -76,7 +76,35 @@ getThis();
 <br />
 
 We see that the `global` object is still output. However, if we now check our `global` object there is no function assigned to it of the label `getThis`. So why is it that `window` is still considered the `object` invoking this function?
-this is because function declarations are not actually added to the `global` object due to their intent as being used atop of our function scopes. The takeaway from this is that `this` is not determined by where the function is declared, but instead from whence the function itself is invoked.
+this is because function declarations are not actually added to the `global` object due to their intent as being used atop of our function scopes. The takeaway from this is that `this` is not determined by where the function is declared, but instead from whence the function itself is invoked. This is an important distinction to understand as in JS it is perfectly legal to reuse the functions we define, we can share functions between objects using `this` to refer to the particular object which invoked said function.
+
+<br />
+
+<pre>
+<code>
+
+'use strict';
+
+const person = {
+    name: 'Kenny',
+    greeting() {
+        console.log(`Hello from ${this.name}`)
+    },
+};
+
+let obj2 = {
+    name: 'Cartman',
+    greeting: obj.greeting,
+};
+
+obj2.greeting();
+
+</code>
+</pre>
+
+<br />
+
+In this case what would you expect `obj2` to output if we call the `greeting` method? if you answered "Hello Cartmen" you would be correct, this is because although we are referencing the function code within our `obj` object the object which is actually invoking the function is `obj2`. If we were to instead invoke the greeting on our `obj` then we would receive the output "Hello Kenny" instead. It is important to be wary of parentheses when using this as invoking the method unintentionally could potentially lead to the output of unexpected results. 
 
 ---
 
