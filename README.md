@@ -23,6 +23,7 @@ ___
 13. [Continuing Promises](./chapters/13_promise_order.md)
 14. [Event Loop](./chapters/14_event_loop.md)
 15. [Execution Contexts](./chapters/)
+16. [This Keyword](./chapters/16_this.md)
 
 <!--
 [Abstract Syntax Trees]()
