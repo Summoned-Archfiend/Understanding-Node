@@ -142,9 +142,7 @@ outer();
 
 Take a look at this and try to make a prediction of what `this` will equate to in each part of the code. Once you have take a look at the dropdown below.
 
-<br />
-
-<detail>
+<details>
     <summary>Answer</summary>
 
 <pre>
@@ -175,9 +173,7 @@ outer();
 </code>
 </pre>
 
-</detail>
-
-<br />
+</details>
 
 This should demonstrate rather well how the value of `this` differs throughout JS and more importantly why it does so. Notice how those functions which are simply called defer to the global object whilst those called on a particular object have `this` bound to that object instance. If we activate strict mode at the top of our code we see that the functions which returned the `global` reference will instead be `undefined`. Now we understand the rules of `this` we can see clearly how `this` will behave in any circumstance, however, it may not always be how we want. There are methods for changing the binding of `this` to reference exactly the object we want to which can be useful in these circumstances. Look at the above code again, whilst we can rationalize why `this` within the `withinInsideObj` function would return the `global` object it does not necessarily make any sense. Why would we be using `this` at all within this context unless we were intending to reference the `obj` of which the function itself belongs to?
 
@@ -266,6 +262,41 @@ button.addEventListener('click', person.displayName);
 <br />
 
 In this example when we click our hypothetical button we would receive a reference to the `HTML` element. This would likely be completely unexpected from our understanding of JS but if we think about it it begins to make sense. Bear in mind what is happening here, we are calling the function `addEventListener` which is on our `EventTarget` object. The second function provided is a callback which is our `listener` function. When we enter the function execution context our function code will be assigned to a `listener` label, but when it is called it is called upon our `EventTarget` object, hence the reference that `this` is bound to is our `EventTarget` which happens to be our `HTMLElement`.
+
+So, in these cases how do we get around using `this` whilst still having it reference the `object` we want it to? after all, if we want reusable functions `this` can be incredibly useful for making our code more generic. Luckily JS provides us with a few methods for dealing with this.
+
+<details>
+    <summary>Call</summary>
+
+The first methods we have is the `call` method. This method lives on the `Function` objects prototype chain, it allows us to call any given function with a given `this` value. Lets take a look at an example of this:
+
+<br />
+
+<pre>
+<code>
+
+const assassin1 = {
+    name: 'Altaïr',
+    displayName() {
+        console.log(this.name);
+    },
+};
+
+const assassin2 = {
+    name: 'Eivor',
+};
+
+assassin1.displayName.call(assassin2);
+assassin1.displayName.apply(assassin2);
+
+</code>
+</pre>
+
+<br />
+
+In this case we invoke the `call` method which provides a reference to `this`. In doing so the function we call `call` on is invoked with the `object` reference we pass to the `call` function. A similar function is also available called `apply`, the only difference being that `apply` allows you to invoke a function with arguments as an array whilst `call` requires the arguments to be passed explicitly.
+
+</details>
 
 ---
 
