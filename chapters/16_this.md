@@ -42,7 +42,7 @@ x();
 <br />
 
 This is one of the reasons using `strict mode` is a good idea. If we use `strict mode` the `this` keyword would then be bound as `undefined`, unless it is invoked from an `object`, meaning that we wont accidentally access our `global` object. It should be noted that `strict mode` can be activated on a per file, or even per function, basis.
-`this` is not bound until function invocation. Upon calling a function the JS engine binds `this` to the `global` object in the `global context`, this is because by default all functions are added to the global object, thus, are invoked by the `global object`, therefore the `global object` is the `object` which invokes our function even if we don't provide the object specifically:
+`this` is not bound until function invocation. Upon calling a function the JS engine binds `this` to the `global` object in the `global context`, this is because by default all declared functions are added to the global object unless they are assigned using `const` or `let`, thus, are invoked by the `global object`, therefore the `global object` is the `object` which invokes our function even if we don't provide the object specifically:
 
 <br />
 
