@@ -298,6 +298,44 @@ In this case we invoke the `call` method which provides a reference to `this`. I
 
 </details>
 
+<br />
+
+<details>
+    <summary>Bind</summary>
+
+Bind is very different from `call` and `apply`. Rather than immediately invoking a function `bind` allows us to determine the reference of `this` but instead returns a `function` for us to invoke manually:
+
+<br />
+
+<pre>
+<code>
+
+const assassin1 = {
+    name: 'Bayek',
+    displayName() {
+        console.log(this.name);
+    },
+};
+
+const assassin2 = {
+    name: 'Jacob',
+};
+
+assassin1.displayName.bind(assassin2)();
+
+</code>
+</pre>
+
+<br />
+
+Notice how call the function returned from `bind` using an immediately invoked function expression. Commonly you will more than likely set this to a variable which will then contain the function code returned from `bind`. Bind also offers the ability to `bind` parameters which would mean every time we call the function the bound arguments would be passed.
+
+
+</details>
+
+<br />
+
+
 ---
 
 <div align="right">
