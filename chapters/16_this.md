@@ -104,7 +104,168 @@ obj2.greeting();
 
 <br />
 
-In this case what would you expect `obj2` to output if we call the `greeting` method? if you answered "Hello Cartmen" you would be correct, this is because although we are referencing the function code within our `obj` object the object which is actually invoking the function is `obj2`. If we were to instead invoke the greeting on our `obj` then we would receive the output "Hello Kenny" instead. It is important to be wary of parentheses when using this as invoking the method unintentionally could potentially lead to the output of unexpected results. 
+In this case what would you expect `obj2` to output if we call the `greeting` method? if you answered "Hello Cartmen" you would be correct, this is because although we are referencing the function code within our `obj` object the object which is actually invoking the function is `obj2`. If we were to instead invoke the greeting on our `obj` then we would receive the output "Hello Kenny" instead. It is important to be wary of parentheses when using this as invoking the method unintentionally could potentially lead to the output of unexpected results.
+
+One of the best examples I have come across showcases some of the complexity we are introduced to when using the keyword `this` comes from [Steven Hancock](https://www.udemy.com/user/stevenhancock/) who i think has some of the most concise videos on the more complex topics in JS on the internet, lets take a look:
+
+<br />
+
+<pre>
+<code>
+
+const outer = function() {
+  console.log(1, this);
+  const inner1 = function() {
+      console.log(2, this);
+      let obj = {
+          name: 'Steven',
+          insideObj() {
+              console.log(3, this);
+              const withinInsideObj = function() {
+                  console.log(4, this);
+              };
+              withinInsideObj();
+          }
+      };
+      obj.insideObj();
+  };
+
+  inner1();
+};
+
+outer();
+
+</code>
+</pre>
+
+<br />
+
+Take a look at this and try to make a prediction of what `this` will equate to in each part of the code. Once you have take a look at the dropdown below.
+
+<br />
+
+<detail>
+    <summary>Answer</summary>
+
+<pre>
+<code>
+
+const outer = function() {
+  console.log(1, this); // Object [global]
+  const inner1 = function() {
+      console.log(2, this); // Object [global]
+      let obj = {
+          name: 'SomeFunction',
+          insideObj() {
+              console.log(3, this); // [Object object]
+              const withinInsideObj = function() {
+                  console.log(4, this); // Object [global]
+              };
+              withinInsideObj();
+          }
+      };
+      obj.insideObj();
+  };
+
+  inner1();
+};
+
+outer();
+
+</code>
+</pre>
+
+</detail>
+
+<br />
+
+This should demonstrate rather well how the value of `this` differs throughout JS and more importantly why it does so. Notice how those functions which are simply called defer to the global object whilst those called on a particular object have `this` bound to that object instance. If we activate strict mode at the top of our code we see that the functions which returned the `global` reference will instead be `undefined`. Now we understand the rules of `this` we can see clearly how `this` will behave in any circumstance, however, it may not always be how we want. There are methods for changing the binding of `this` to reference exactly the object we want to which can be useful in these circumstances. Look at the above code again, whilst we can rationalize why `this` within the `withinInsideObj` function would return the `global` object it does not necessarily make any sense. Why would we be using `this` at all within this context unless we were intending to reference the `obj` of which the function itself belongs to?
+
+Another problem we have with `this` is when the `object` it was bound to is removed, in other words when we lose our reference `object`. If we have a function which uses the `this` keyword to return some data from an `object` we see that our data is returned as we would expect:
+
+<br />
+
+<pre>
+<code>
+const displayName = function() {
+    console.log(this.name);
+}
+
+let person = {
+    name: 'Connor',
+    displayName,
+}
+
+
+person.displayName();
+</code>
+</pre>
+
+<br />
+
+However, what if we them want to reuse our function outside of our object? what if we re-assign our function to another variable? lets add some code to the bottom of the above code:
+
+<br />
+
+<pre>
+<code>
+console.log(person.displayName());
+
+const showName = person.displayName;
+console.log(showName);
+</code>
+</pre>
+
+<br />
+
+In this case we have now reassigned our function and thus lost reference to our `object` and so receive an error `Cannot read property 'name' of undefined as displayName`, you can see that this might be an issue if we want the ability to create shortened versions of our functions but it gets worse, we can also lose this reference in `callbacks`.
+
+<br />
+
+<pre>
+<code>
+const person = {
+    name: 'Edward',
+    displayName() {
+        console.log(this.name);
+    }
+};
+
+const someCallback = function(callback) {
+    if (typeof callback === 'function') {
+        callback();
+    }
+};
+
+someCallback(obj.displayName);
+</code>
+</pre>
+
+<br />
+
+This is because our reference of `this` is now pointing to the `global` object since it is being called from our `callback`. As you can imagine this is exactly the same when using any of our `async` function calls in the `Web API` such as `setTimeout`, `setInterval`, and so on. Since this is handled by the browser it is not called directly, instead being added to our `callback queue` where it is eventually invoked by the JS engine attaching parentheses to it when either our timer completes, or we receive our data, dependent on the process which has been queued. Interestingly, because of this browser handling strict mode will not set this reference to `undefined`, we instead receive the `global` object still.
+
+A third, somewhat stranger, issue can be seen when creating old JS applications. When we build modern JS applications we don't often have to select elements in the `DOM` ourselves anymore, however, this is a frequently undertaken task we complete within vanilla JS and applications which use some other frameworks differing from `componentised` methodologies like `React`.
+
+<br />
+
+<pre>
+<code>
+const person = {
+    name: 'Ezio',
+    displayName() {
+        console.log(this.name);
+    }
+};
+
+const button = document.getElementById('btn');
+button.addEventListener('click', person.displayName);
+</code>
+</pre>
+
+<br />
+
+In this example when we click our hypothetical button we would receive a reference to the `HTML` element. This would likely be completely unexpected from our understanding of JS but if we think about it it begins to make sense. Bear in mind what is happening here, we are calling the function `addEventListener` which is on our `EventTarget` object. The second function provided is a callback which is our `listener` function. When we enter the function execution context our function code will be assigned to a `listener` label, but when it is called it is called upon our `EventTarget` object, hence the reference that `this` is bound to is our `EventTarget` which happens to be our `HTMLElement`.
 
 ---
 
