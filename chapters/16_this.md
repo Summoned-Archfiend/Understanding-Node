@@ -57,7 +57,7 @@ getThis();
 </code>
 </pre>
 
-If we take a look at our `global` object we see that the function itself is a property of the `global object`. We can look at this object via the `globalThis` variable, this references the `global` object despite whether we are running in `node` or the `browser`, or any other JS implementation.
+If we take a look at our `global` object we see that the function itself is a property of the `global object`. We can look at this object via the `globalThis` variable, this references the `global` object despite whether we are running in `node`, the `browser`, or any other JS implementation.
 
 Now, those of you who are paying attention might take note that we are using `var` to declare our variable here, so what happens if we create a function using `let` or `const` instead?
 
