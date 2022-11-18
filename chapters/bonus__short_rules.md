@@ -119,3 +119,5 @@ Function.prototype.method = function (name, func) {
 <div align="center">
     <img src="../images/iifeNeat.png">
 </div>
+
+34. Never use the `with` statement - you don't need it, leave it out, it can vary at compile time dependent on the argument passed at compile time, this means we can never truly know when we write it what the result will be, this is bad, just don't do it. There are some very clever cases for using the `with` statement, it IS useful, but it is never not confusing and we would rather our code be more understandable than being clever. Confusion causes bugs, minimise confusion.
