@@ -113,3 +113,9 @@ Function.prototype.method = function (name, func) {
 </div>
 
 32. Use JSLint - JSLint is a tool originally created by [Douglas Crockford](https://www.amazon.co.uk/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742) use it. It will hold your code to the standard you should be coding at allowing you to enjoy the good parts of JS whilst ignoring the bad.
+
+33. Wrap your IIFEs - This is an idea I was only actually introduced to very recently, literally the day of writing this, but I think it is an absolutely beautiful improvement to the readability of JS. I love IIFEs, they are useful in so many places, especially when we want a default returned from a function we are only ever going to use in that one place, we just want the result, and we want it now. However, the IIFE always has to have the invocation parentheses hanging off the edge, this can look somewhat ugly, and can cause programmers less familiar with the codebase to do a double take. Instead we can wrap the whole expression in braces to convey the information that this is indeed an IIFE.
+
+<div align="center">
+    <img src="../images/iifeNeat.png">
+</div>
