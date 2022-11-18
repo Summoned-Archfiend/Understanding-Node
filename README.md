@@ -35,7 +35,7 @@ ___
 
 <br />
 
-- [JavaScript Short Rules](./chapters/bonus__short_rules.md)
+- [JavaScript Rules for Improvement](./chapters/bonus__short_rules.md)
 - [JavaScript Object Cloning](./chapters/bonus__object_cloning.md)
 
 <br />
