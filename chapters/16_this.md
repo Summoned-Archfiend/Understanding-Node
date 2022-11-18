@@ -330,7 +330,6 @@ assassin1.displayName.bind(assassin2)();
 
 Notice how call the function returned from `bind` using an immediately invoked function expression. Commonly you will more than likely set this to a variable which will then contain the function code returned from `bind`. Bind also offers the ability to `bind` parameters which would mean every time we call the function the bound arguments would be passed.
 
-
 </details>
 
 <br />
