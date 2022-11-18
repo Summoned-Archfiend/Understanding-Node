@@ -121,3 +121,5 @@ Function.prototype.method = function (name, func) {
 </div>
 
 34. Never use the `with` statement - you don't need it, leave it out, it can vary at compile time dependent on the argument passed at compile time, this means we can never truly know when we write it what the result will be, this is bad, just don't do it. There are some very clever cases for using the `with` statement, it IS useful, but it is never not confusing and we would rather our code be more understandable than being clever. Confusion causes bugs, minimise confusion.
+
+35. Don't assign variables in conditional statements - This looks incredibly strange and confusing, your program should look like it does what it does `if (a = b) {}` for instance looks like it is acomparator at first glance when it is actually assigning `b` to `a` and then checking `a` for truthyness. JS allows this weirdness, but avoid it.
