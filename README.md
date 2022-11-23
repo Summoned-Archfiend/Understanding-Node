@@ -35,6 +35,7 @@ ___
 
 <br />
 
+- [JavaScript Testing](https://github.com/Summoned-Archfiend/JavaScriptTesting)
 - [JavaScript Rules for Improvement](./chapters/bonus__short_rules.md)
 - [JavaScript Object Cloning](./chapters/bonus__object_cloning.md)
 
